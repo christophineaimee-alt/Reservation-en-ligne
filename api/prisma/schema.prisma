@@ -1,0 +1,342 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+  COMMERCANT
+}
+
+enum StatutCompte {
+  ACTIF
+  SUSPENDU
+  BLOQUE
+}
+
+enum StatutBoutique {
+  EN_ATTENTE
+  VALIDEE
+  REJETEE
+}
+
+enum StatutReservation {
+  EN_ATTENTE
+  ACCEPTEE
+  REFUSEE
+  ANNULEE
+  EXPIREE
+}
+
+enum TypeProduitService {
+  PRODUIT
+  SERVICE
+}
+
+enum OperateurPaiement {
+  MVOLA
+  ORANGE_MONEY
+  AIRTEL_MONEY
+  SIMULATEUR
+}
+
+enum StatutPaiement {
+  EN_ATTENTE
+  REUSSI
+  ECHOUE
+  EXPIRE
+}
+
+model Utilisateur {
+  idUser        Int          @id @default(autoincrement())
+  email         String       @unique
+  telephone     String       @unique
+  motDePasse    String
+  nom           String
+  prenom        String
+  role          Role
+  statutCompte  StatutCompte @default(ACTIF)
+  nbEchecs      Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  client        Client?
+  commercant    Commercant?
+  admin         Admin?
+  notifications Notification[]
+}
+
+model Client {
+  idClient     Int           @id @default(autoincrement())
+  adresse      String?
+  idUser       Int           @unique
+  utilisateur  Utilisateur   @relation(fields: [idUser], references: [idUser], onDelete: Cascade)
+  pointsFidelite   Int               @default(0)
+  pointsCumules    Int               @default(0)
+  reservations Reservation[]
+  avis         Avis[]
+  mouvementsPoints MouvementPoints[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Commercant {
+  idCommercant   Int         @id @default(autoincrement())
+  nomCommercial  String?
+  idUser         Int         @unique
+  utilisateur    Utilisateur @relation(fields: [idUser], references: [idUser], onDelete: Cascade)
+  boutique       Boutique?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Admin {
+  idAdmin           Int         @id @default(autoincrement())
+  idUser            Int         @unique
+  utilisateur       Utilisateur @relation(fields: [idUser], references: [idUser], onDelete: Cascade)
+  boutiquesValidees Boutique[]
+  categories        Categorie[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model Categorie {
+  idCategorie Int        @id @default(autoincrement())
+  nom         String     @unique
+  description String?
+  actif       Boolean    @default(true)
+  idAdmin     Int?
+  admin       Admin?     @relation(fields: [idAdmin], references: [idAdmin])
+  boutiques   Boutique[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Boutique {
+  idBoutique        Int              @id @default(autoincrement())
+  nom               String
+  description       String?
+  adresse           String
+  ville             String
+  logo              String?
+  telephone         String?
+  noteMoyenne       Float            @default(0)
+  nombreAvis        Int              @default(0)
+  avis              Avis[]
+  statut            StatutBoutique   @default(EN_ATTENTE)
+  motifRejet        String?
+  idCommercant      Int              @unique
+  commercant        Commercant       @relation(fields: [idCommercant], references: [idCommercant], onDelete: Cascade)
+  idCategorie       Int
+  categorie         Categorie        @relation(fields: [idCategorie], references: [idCategorie])
+  idAdminValidateur Int?
+  adminValidateur   Admin?           @relation(fields: [idAdminValidateur], references: [idAdmin])
+  produitsServices  ProduitService[]
+  horaires          Horaire[]
+  disponibilites    Disponibilite[]
+  promotions        Promotion[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([ville])
+  @@index([statut])
+}
+
+model ProduitService {
+  idProduitService Int                @id @default(autoincrement())
+  nom              String
+  description      String?
+  prix             Decimal            @db.Decimal(12, 2)
+  photo            String?
+  type             TypeProduitService
+  dureeMinutes     Int?
+  actif            Boolean            @default(true)
+  idBoutique       Int
+  boutique         Boutique           @relation(fields: [idBoutique], references: [idBoutique], onDelete: Cascade)
+  stock            Stock?
+  reservations     Reservation[]
+  promotions       Promotion[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Stock {
+  idStock          Int            @id @default(autoincrement())
+  quantite         Int            @default(0)
+  seuilAlerte      Int            @default(0)
+  idProduitService Int            @unique
+  produitService   ProduitService @relation(fields: [idProduitService], references: [idProduitService], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Horaire {
+  idHoraire       Int      @id @default(autoincrement())
+  jour            Int
+  heureOuverture  String?
+  heureFermeture  String?
+  ferme           Boolean  @default(false)
+  idBoutique      Int
+  boutique        Boutique @relation(fields: [idBoutique], references: [idBoutique], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([idBoutique, jour])
+}
+
+model Disponibilite {
+  idDisponibilite Int           @id @default(autoincrement())
+  date            DateTime      @db.Date
+  heureDebut      String
+  heureFin        String
+  capacite        Int           @default(1)
+  bloque          Boolean       @default(false)
+  idBoutique      Int
+  boutique        Boutique      @relation(fields: [idBoutique], references: [idBoutique], onDelete: Cascade)
+  reservations    Reservation[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([idBoutique, date])
+}
+
+model Reservation {
+  idReservation    Int               @id @default(autoincrement())
+  quantite         Int               @default(1)
+  remarque         String?
+  dateHeure        DateTime
+  statut           StatutReservation @default(EN_ATTENTE)
+  motifRefus       String?
+  dateExpiration   DateTime?
+  idClient         Int
+  client           Client            @relation(fields: [idClient], references: [idClient])
+  idProduitService Int
+  produitService   ProduitService    @relation(fields: [idProduitService], references: [idProduitService])
+  idDisponibilite  Int?
+  disponibilite    Disponibilite?    @relation(fields: [idDisponibilite], references: [idDisponibilite])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  montantTotal     Decimal?          @db.Decimal(12, 2)
+  montantInitial   Decimal?          @db.Decimal(12, 2)
+  remise           Decimal?          @db.Decimal(12, 2)
+  pointsUtilises   Int               @default(0)
+  idPromotion      Int?
+  promotion        Promotion?        @relation(fields: [idPromotion], references: [idPromotion])
+  mouvementsPoints MouvementPoints[]
+  paiements        Paiement[]
+  avis             Avis?
+
+  @@index([statut])
+  @@index([idClient])
+}
+
+model Notification {
+  idNotification   Int         @id @default(autoincrement())
+  titre            String
+  message          String
+  typeNotification String
+  lue              Boolean     @default(false)
+  dateEnvoi        DateTime    @default(now())
+  idUser           Int
+  utilisateur      Utilisateur @relation(fields: [idUser], references: [idUser], onDelete: Cascade)
+  createdAt        DateTime    @default(now())
+
+  @@index([idUser, lue])
+}
+
+model Paiement {
+  idPaiement         Int               @id @default(autoincrement())
+  montant            Decimal           @db.Decimal(12, 2)
+  devise             String            @default("MGA")
+  operateur          OperateurPaiement
+  telephonePayeur    String
+  statut             StatutPaiement    @default(EN_ATTENTE)
+  referenceInterne   String            @unique
+  referenceOperateur String?
+  messageErreur      String?
+  datePaiement       DateTime?
+  idReservation      Int
+  reservation        Reservation       @relation(fields: [idReservation], references: [idReservation])
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  mouvementPoints    MouvementPoints?
+
+  @@index([idReservation])
+  @@index([statut])
+}
+model Avis {
+  idAvis        Int         @id @default(autoincrement())
+  note          Int
+  commentaire   String?
+  reponse       String?
+  dateReponse   DateTime?
+  idReservation Int         @unique
+  reservation   Reservation @relation(fields: [idReservation], references: [idReservation])
+  idClient      Int
+  client        Client      @relation(fields: [idClient], references: [idClient])
+  idBoutique    Int
+  boutique      Boutique    @relation(fields: [idBoutique], references: [idBoutique], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([idBoutique])
+  @@index([idClient])
+}
+enum TypeRemise {
+  POURCENTAGE
+  MONTANT
+}
+
+enum TypeMouvementPoints {
+  GAIN
+  UTILISATION
+  REMBOURSEMENT
+}
+
+model Promotion {
+  idPromotion      Int             @id @default(autoincrement())
+  titre            String
+  description      String?
+  typeRemise       TypeRemise
+  valeur           Decimal         @db.Decimal(12, 2)
+  dateDebut        DateTime
+  dateFin          DateTime
+  actif            Boolean         @default(true)
+  idBoutique       Int
+  boutique         Boutique        @relation(fields: [idBoutique], references: [idBoutique], onDelete: Cascade)
+  idProduitService Int?
+  produitService   ProduitService? @relation(fields: [idProduitService], references: [idProduitService], onDelete: Cascade)
+  reservations     Reservation[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([idBoutique])
+  @@index([dateDebut, dateFin])
+}
+
+model MouvementPoints {
+  idMouvement   Int                 @id @default(autoincrement())
+  points        Int
+  type          TypeMouvementPoints
+  description   String
+  idClient      Int
+  client        Client              @relation(fields: [idClient], references: [idClient], onDelete: Cascade)
+  idReservation Int?
+  reservation   Reservation?        @relation(fields: [idReservation], references: [idReservation])
+  idPaiement    Int?                @unique
+  paiement      Paiement?           @relation(fields: [idPaiement], references: [idPaiement])
+  createdAt     DateTime            @default(now())
+
+  @@index([idClient])
+}
