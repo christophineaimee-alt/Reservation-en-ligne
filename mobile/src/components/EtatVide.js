@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces } from '../theme';
@@ -12,8 +13,12 @@ export default function EtatVide({ titre, message }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   conteneur: { padding: espaces.xl, alignItems: 'center' },
   titre: { fontSize: 17, fontWeight: '600', color: couleurs.texte, textAlign: 'center' },
   message: { marginTop: espaces.xs, color: couleurs.texteSecondaire, textAlign: 'center' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

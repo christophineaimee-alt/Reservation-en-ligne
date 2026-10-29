@@ -113,8 +113,10 @@ const creer = asyncHandler(async (req, res) => {
   await notifierAdmins(
     'NOUVELLE_BOUTIQUE',
     'Nouvelle boutique à valider',
-    `La boutique « ${boutique.nom} » attend votre validation.`
+    `La boutique « ${boutique.nom} » attend votre validation.`,
+    { type: 'BOUTIQUE', id: boutique.idBoutique }
   );
+  
 
   res.status(201).json({ message: 'Boutique créée, en attente de validation', boutique });
 });
@@ -161,8 +163,10 @@ const modifierMoi = asyncHandler(async (req, res) => {
     await notifierAdmins(
       'BOUTIQUE_RESOUMISE',
       'Boutique corrigée à revalider',
-      `La boutique « ${maj.nom} » a été corrigée et attend une nouvelle validation.`
+      `La boutique « ${maj.nom} » a été corrigée et attend une nouvelle validation.`,
+      { type: 'BOUTIQUE', id: maj.idBoutique }
     );
+    
   }
   res.json({
     message: resoumise ? 'Boutique corrigée et soumise à nouveau' : 'Boutique mise à jour',
@@ -221,8 +225,10 @@ const decider = asyncHandler(async (req, res) => {
     valider ? 'Boutique validée' : 'Boutique rejetée',
     valider
       ? `Votre boutique « ${boutique.nom} » est maintenant visible des clients.`
-      : `Votre boutique « ${boutique.nom} » a été rejetée. Motif : ${motif}`
+      : `Votre boutique « ${boutique.nom} » a été rejetée. Motif : ${motif}`,
+    { type: 'BOUTIQUE', id }
   );
+  
 
   res.json({ message: valider ? 'Boutique validée' : 'Boutique rejetée', boutique: maj });
 });

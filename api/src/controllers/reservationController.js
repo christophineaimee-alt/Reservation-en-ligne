@@ -101,7 +101,9 @@ const creer = asyncHandler(async (req, res) => {
     idUserCommercant,
     'NOUVELLE_DEMANDE',
     'Nouvelle demande de réservation',
-    `${req.utilisateur.prenom} ${req.utilisateur.nom} a demandé « ${article.nom} ».`
+    `${req.utilisateur.prenom} ${req.utilisateur.nom} a demandé « ${article.nom} ».`,
+    { type: 'RESERVATION', id: reservation.idReservation }
+  
   );
   if (article.type === 'PRODUIT') await S.alerterStockSiFaible(article.idProduitService, idUserCommercant);
 
@@ -167,8 +169,10 @@ const annuler = asyncHandler(async (req, res) => {
     reservation.produitService.boutique.commercant.idUser,
     'RESERVATION_ANNULEE',
     'Réservation annulée',
-    `${req.utilisateur.prenom} ${req.utilisateur.nom} a annulé sa réservation de « ${reservation.produitService.nom} ».`
+    `${req.utilisateur.prenom} ${req.utilisateur.nom} a annulé sa réservation de « ${reservation.produitService.nom} ».`,
+    { type: 'RESERVATION', id }
   );
+  
 
   res.json({ message: 'Réservation annulée', idReservation: id, statut: 'ANNULEE' });
 });

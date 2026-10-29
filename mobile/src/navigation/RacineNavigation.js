@@ -7,14 +7,17 @@ import NavigationClient from './NavigationClient';
 import NavigationCommercant from './NavigationCommercant';
 import NavigationAdmin from './NavigationAdmin';
 import { couleurs } from '../theme';
+import { themeNavigation } from '../theme/navigation';
+import { useThemeVersion } from '../theme/registre';
 
 // Choisit ce qu'on affiche : chargement, connexion, ou l'application selon le rôle
 export default function RacineNavigation() {
+  useThemeVersion();
   const { utilisateur, chargement } = useAuth();
 
   if (chargement) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: couleurs.fond }}>
         <ActivityIndicator size="large" color={couleurs.primaire} />
       </View>
     );
@@ -26,6 +29,5 @@ export default function RacineNavigation() {
     else if (utilisateur.role === 'COMMERCANT') ecran = <NavigationCommercant />;
     else ecran = <NavigationAdmin />;
   }
-
-  return <NavigationContainer>{ecran}</NavigationContainer>;
+  return <NavigationContainer theme={themeNavigation()}>{ecran}</NavigationContainer>;
 }

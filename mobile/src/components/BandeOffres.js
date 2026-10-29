@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -52,7 +53,7 @@ export default function BandeOffres({ navigation, idBoutique }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { marginVertical: espaces.s },
   titre: { fontSize: 16, fontWeight: '700', color: couleurs.texte, marginBottom: espaces.s },
   liste: { gap: espaces.s + 4, paddingBottom: 6, paddingRight: espaces.m },
@@ -62,4 +63,8 @@ const styles = StyleSheet.create({
   nom: { fontSize: 15, fontWeight: '700', color: '#FFFFFF', marginTop: 2 },
   sous: { fontSize: 12, color: 'rgba(255,255,255,0.85)', marginTop: 2 },
   fin: { fontSize: 11, fontWeight: '700', color: '#FFFFFF', marginTop: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

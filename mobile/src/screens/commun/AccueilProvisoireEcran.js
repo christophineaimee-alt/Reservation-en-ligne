@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Ecran from '../../components/Ecran';
@@ -9,6 +10,7 @@ const LIBELLES = { CLIENT: 'Client', COMMERCANT: 'Commerçant', ADMIN: 'Administ
 
 // Écran temporaire : confirme que la connexion fonctionne
 export default function AccueilProvisoireEcran() {
+  useThemeVersion();
   const { utilisateur, deconnexion } = useAuth();
   return (
     <Ecran>
@@ -21,8 +23,12 @@ export default function AccueilProvisoireEcran() {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   titre: { fontSize: 24, fontWeight: '700', color: couleurs.texte, marginBottom: espaces.s },
   texte: { fontSize: 16, color: couleurs.texte, marginBottom: espaces.xs },
   info: { color: couleurs.texteSecondaire, marginVertical: espaces.l },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

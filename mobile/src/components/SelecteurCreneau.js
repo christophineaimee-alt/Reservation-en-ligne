@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces } from '../theme';
@@ -27,17 +28,21 @@ export default function SelecteurCreneau({ creneaux, choisi, onChoisir }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   grille: { flexDirection: 'row', flexWrap: 'wrap', gap: espaces.s },
   creneau: {
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 16,
-    backgroundColor: '#F1F2FA',
+    backgroundColor: couleurs.surface3,
     alignItems: 'center',
   },
   actif: { backgroundColor: couleurs.primaire },
   heures: { fontSize: 15, fontWeight: '700', color: couleurs.texte },
   places: { fontSize: 12, color: couleurs.texteSecondaire, marginTop: 2 },
   texteActif: { color: '#FFFFFF' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

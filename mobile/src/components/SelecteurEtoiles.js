@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +16,10 @@ export default function SelecteurEtoiles({ valeur, onChange, taille = 42 }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: { flexDirection: 'row', justifyContent: 'center', gap: 8 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

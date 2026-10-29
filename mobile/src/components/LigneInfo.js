@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,7 +18,7 @@ export default function LigneInfo({ icone, titre, valeur, rouge }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: { flexDirection: 'row', alignItems: 'center', paddingVertical: espaces.s },
   pastille: {
     width: 38,
@@ -31,4 +32,8 @@ const styles = StyleSheet.create({
   textes: { flex: 1 },
   titre: { fontSize: 12, color: couleurs.texteSecondaire },
   valeur: { fontSize: 15, fontWeight: '600', color: couleurs.texte, marginTop: 1 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

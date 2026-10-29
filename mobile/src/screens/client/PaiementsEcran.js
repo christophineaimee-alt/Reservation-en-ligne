@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,15 +22,20 @@ const FILTRES = [
   { titre: 'Échoués', valeur: 'ECHOUE' },
 ];
 
-const STATUTS = {
+const creerSTATUTS = () => ({
   REUSSI: { texte: 'Réussi', fond: couleurs.succesFond, couleur: couleurs.succes },
   EN_ATTENTE: { texte: 'En cours', fond: couleurs.primaireClair, couleur: couleurs.primaire },
   ECHOUE: { texte: 'Échoué', fond: couleurs.erreurFond, couleur: couleurs.erreur },
-  EXPIRE: { texte: 'Expiré', fond: '#EEF0F5', couleur: couleurs.texteSecondaire },
-};
+  EXPIRE: { texte: 'Expiré', fond: couleurs.neutreFond, couleur: couleurs.texteSecondaire },
+});
+const STATUTS = creerSTATUTS();
+enregistrerStyles(() => {
+  Object.assign(STATUTS, creerSTATUTS());
+});
 
 // Paiements du client : à payer, en cours et historique
 export default function PaiementsEcran({ navigation }) {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const large = width >= 900;
   const [filtre, setFiltre] = useState('');
@@ -201,7 +207,7 @@ export default function PaiementsEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   demo: {
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: espaces.s + 4,
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: 16,
     padding: espaces.s + 4,
     marginBottom: espaces.s,
@@ -237,4 +243,8 @@ const styles = StyleSheet.create({
   etatTexte: { fontSize: 11, fontWeight: '700' },
   payer: { backgroundColor: couleurs.primaire, borderRadius: 18, paddingHorizontal: 16, height: 32, alignItems: 'center', justifyContent: 'center' },
   payerTexte: { color: '#FFFFFF', fontSize: 13, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

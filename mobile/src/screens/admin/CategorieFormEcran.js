@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Switch, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +12,7 @@ import { couleurs, espaces, rayon } from '../../theme';
 
 // UC24 : ajouter, renommer, désactiver une catégorie
 export default function CategorieFormEcran({ route, navigation }) {
+  useThemeVersion();
   const categorie = route.params && route.params.categorie ? route.params.categorie : null;
   const edition = Boolean(categorie);
   const { width } = useWindowDimensions();
@@ -128,21 +130,25 @@ export default function CategorieFormEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   interrupteur: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: 16,
     padding: espaces.m,
     marginBottom: espaces.m,
   },
   interrupteurTitre: { fontSize: 15, fontWeight: '600', color: couleurs.texte },
   interrupteurTexte: { fontSize: 13, color: couleurs.texteSecondaire, marginTop: 2 },
-  reaffectation: { backgroundColor: '#FFF4DB', borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m },
+  reaffectation: { backgroundColor: couleurs.avertFond, borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m },
   reaffectationTitre: { fontSize: 15, fontWeight: '700', color: couleurs.attention },
   reaffectationTexte: { fontSize: 14, color: couleurs.texte, marginTop: espaces.xs },
   choix: { flexDirection: 'row', flexWrap: 'wrap', rowGap: espaces.s, marginTop: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

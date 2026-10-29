@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +12,7 @@ import EtatVide from '../../components/EtatVide';
 import { couleurs, espaces, rayon, ombre } from '../../theme';
 
 export default function AvisBoutiqueEcran({ route }) {
+  useThemeVersion();
   const { idBoutique } = route.params;
   const [resume, setResume] = useState(null);
   const [avis, setAvis] = useState([]);
@@ -85,9 +87,13 @@ export default function AvisBoutiqueEcran({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   liste: { padding: espaces.m, paddingBottom: espaces.xl, width: '100%', maxWidth: 700, alignSelf: 'center' },
   resume: { backgroundColor: couleurs.carte, borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m, ...ombre },
   titre: { fontSize: 18, fontWeight: '600', color: couleurs.texte, marginBottom: espaces.s + 4 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

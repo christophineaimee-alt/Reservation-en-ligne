@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -24,6 +25,7 @@ function ajouterJours(ymd, n) {
 
 // Créer une promotion, ou la modifier si "promotion" est fournie
 export default function PromotionFormEcran({ route, navigation }) {
+  useThemeVersion();
   const promotion = route.params ? route.params.promotion : null;
   const [titre, setTitre] = useState(promotion ? promotion.titre : '');
   const [description, setDescription] = useState(promotion && promotion.description ? promotion.description : '');
@@ -158,7 +160,7 @@ export default function PromotionFormEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   apercu: { borderRadius: rayon, padding: espaces.l, alignItems: 'center', marginBottom: espaces.m, ...ombre },
   apercuRemise: { fontSize: 34, fontWeight: '800', color: '#FFFFFF' },
   apercuTitre: { fontSize: 15, color: 'rgba(255,255,255,0.9)', marginTop: 2 },
@@ -178,4 +180,8 @@ const styles = StyleSheet.create({
   typeSous: { fontSize: 11, color: couleurs.texteSecondaire, marginTop: 2 },
   rapides: { flexDirection: 'row', marginTop: -espaces.s, marginBottom: espaces.m },
   articles: { marginBottom: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

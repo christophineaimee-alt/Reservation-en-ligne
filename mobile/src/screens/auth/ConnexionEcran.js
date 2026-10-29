@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Ecran from '../../components/Ecran';
@@ -12,6 +13,7 @@ import { couleurs, espaces } from '../../theme';
 
 // UC02 : s'authentifier
 export default function ConnexionEcran({ navigation, route }) {
+  useThemeVersion();
   const { connexion } = useAuth();
   const [identifiant, setIdentifiant] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
@@ -75,8 +77,12 @@ export default function ConnexionEcran({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   entete: { alignItems: 'center', marginBottom: espaces.l },
   titre: { fontSize: 26, fontWeight: '700', color: couleurs.texte, marginTop: espaces.l, textAlign: 'center' },
   sousTitre: { fontSize: 15, color: couleurs.texteSecondaire, marginTop: espaces.xs, textAlign: 'center' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

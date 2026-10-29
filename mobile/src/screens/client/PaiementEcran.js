@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,6 +17,7 @@ import { OPERATEURS, nomOperateur } from '../../utils/paiement';
 
 // Payer une réservation acceptée : saisie, attente de confirmation, résultat
 export default function PaiementEcran({ route, navigation }) {
+  useThemeVersion();
   const { idReservation, idPaiement: idInitial } = route.params;
   const { utilisateur } = useAuth();
   const [reservation, setReservation] = useState(null);
@@ -230,7 +232,7 @@ export default function PaiementEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   montantCarte: { borderRadius: rayon, padding: espaces.l, marginBottom: espaces.l, ...ombre },
   montantLabel: { fontSize: 13, color: 'rgba(255,255,255,0.85)' },
   montant: { fontSize: 34, fontWeight: '800', color: '#FFFFFF', marginTop: 4 },
@@ -276,4 +278,8 @@ const styles = StyleSheet.create({
   titreEtat: { fontSize: 22, fontWeight: '700', color: couleurs.texte, textAlign: 'center' },
   texteEtat: { fontSize: 15, color: couleurs.texte, textAlign: 'center', marginTop: espaces.s, paddingHorizontal: espaces.m },
   petit: { fontSize: 12, color: couleurs.texteSecondaire, textAlign: 'center', marginTop: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

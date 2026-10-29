@@ -1,3 +1,4 @@
+import { useThemeVersion } from '../theme/registre';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +10,7 @@ import NouvelleReservationEcran from '../screens/client/NouvelleReservationEcran
 import MesReservationsEcran from '../screens/client/MesReservationsEcran';
 import ReservationDetailEcran from '../screens/client/ReservationDetailEcran';
 import NotificationsEcran from '../screens/commun/NotificationsEcran';
+import NotificationDetailEcran from '../screens/commun/NotificationDetailEcran';
 import ProfilEcran from '../screens/commun/ProfilEcran';
 import { couleurs } from '../theme';
 import { optionsOnglets, optionsPile } from '../theme/navigation';
@@ -19,6 +21,7 @@ import PaiementsEcran from '../screens/client/PaiementsEcran';
 import RecuEcran from '../screens/client/RecuEcran';
 import AvisBoutiqueEcran from '../screens/client/AvisBoutiqueEcran';
 import DonnerAvisEcran from '../screens/client/DonnerAvisEcran';
+import ModifierProfilEcran from '../screens/commun/ModifierProfilEcran';
 
 
 const Tab = createBottomTabNavigator();
@@ -29,6 +32,7 @@ function icone(nom) {
 }
 
 function Onglets() {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const large = width >= 900;
   return (
@@ -70,6 +74,7 @@ export default function NavigationClient() {
   return (
         <Stack.Navigator screenOptions={optionsPile}>
       <Stack.Screen name="Onglets" component={Onglets} options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationDetail" component={NotificationDetailEcran} options={{ title: 'Notification' }} />
       <Stack.Screen
         name="Boutique"
         component={BoutiqueEcran}
@@ -86,6 +91,7 @@ export default function NavigationClient() {
       <Stack.Screen name="Recu" component={RecuEcran} options={{ title: 'Reçu de paiement' }} />
       <Stack.Screen name="AvisBoutique" component={AvisBoutiqueEcran} options={{ title: 'Avis des clients' }} />
       <Stack.Screen name="DonnerAvis" component={DonnerAvisEcran} options={{ title: 'Votre avis' }} />
+      <Stack.Screen name="ModifierProfil" component={ModifierProfilEcran} options={{ title: 'Modifier mon profil' }} />
     </Stack.Navigator>
   );
 }

@@ -74,23 +74,26 @@ async function actualiserStatut(paiement) {
       },
     },
   });
+
   const nom = reservation.produitService.nom;
   const idClient = reservation.client.idUser;
   const idCommercant = reservation.produitService.boutique.commercant.idUser;
-
+  const cible = { type: 'RESERVATION', id: paiement.idReservation };
+  
   if (final.statut === 'REUSSI') {
     await notifier(idClient, 'PAIEMENT_REUSSI', 'Paiement confirmé',
-      `Votre paiement de ${formaterMontant(final.montant)} pour « ${nom} » est confirmé.`);
+      `Votre paiement de ${formaterMontant(final.montant)} pour « ${nom} » est confirmé.`, cible);
     await notifier(idCommercant, 'PAIEMENT_RECU', 'Paiement reçu',
-      `Paiement de ${formaterMontant(final.montant)} reçu pour « ${nom} ».`);
+      `Paiement de ${formaterMontant(final.montant)} reçu pour « ${nom} ».`, cible);
   } else if (final.statut === 'ECHOUE') {
     await notifier(idClient, 'PAIEMENT_ECHOUE', 'Paiement échoué',
-      `Le paiement pour « ${nom} » a échoué : ${final.messageErreur || 'refusé'}. Vous pouvez réessayer.`);
+      `Le paiement pour « ${nom} » a échoué : ${final.messageErreur || 'refusé'}. Vous pouvez réessayer.`, cible);
   } else {
     await notifier(idClient, 'PAIEMENT_EXPIRE', 'Paiement expiré',
-      `Le paiement pour « ${nom} » n'a pas été confirmé à temps. Vous pouvez réessayer.`);
+      `Le paiement pour « ${nom} » n'a pas été confirmé à temps. Vous pouvez réessayer.`, cible);
   }
   return final;
 }
+  
 
 module.exports = { montantReservation, formaterPaiement, formaterMontant, actualiserStatut };

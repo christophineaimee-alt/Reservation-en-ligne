@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -27,14 +28,14 @@ export default function ChampRecherche({ valeur, onChangeText, placeholder = 'Re
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     height: 50,
     borderRadius: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: couleurs.carte,
     paddingHorizontal: 16,
     ...ombre,
   },
@@ -44,4 +45,8 @@ const styles = StyleSheet.create({
     color: couleurs.texte,
     ...Platform.select({ web: { outlineStyle: 'none' } }),
   },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

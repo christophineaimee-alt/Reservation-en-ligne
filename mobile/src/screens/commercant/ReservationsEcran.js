@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,6 +28,7 @@ const FILTRES = [
 
 // UC16 : gérer les réservations / UC17 : accepter / UC18 : refuser (depuis la fiche)
 export default function ReservationsEcran({ navigation, route }) {
+  useThemeVersion();
   const nonLues = useNonLues();
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -170,10 +172,14 @@ export default function ReservationsEcran({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   defilement: { marginHorizontal: -espaces.m, marginBottom: espaces.s },
   puces: { paddingHorizontal: espaces.m, paddingVertical: 6 },
   voirPlus: { marginTop: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

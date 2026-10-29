@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +24,7 @@ const FILTRES = [
 
 // Promotions et offres spéciales du commerçant
 export default function PromotionsEcran({ navigation }) {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const large = width >= 900;
   const [promotions, setPromotions] = useState([]);
@@ -192,13 +194,13 @@ export default function PromotionsEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   nouvelle: { marginBottom: espaces.m },
   filtres: { marginBottom: espaces.m },
   vide: { fontSize: 14, color: couleurs.texteSecondaire },
-  carte: { backgroundColor: '#F7F7FC', borderRadius: 16, padding: espaces.m, marginBottom: espaces.s + 2 },
+  carte: { backgroundColor: couleurs.surface2, borderRadius: 16, padding: espaces.m, marginBottom: espaces.s + 2 },
   haut: { flexDirection: 'row', alignItems: 'center', gap: espaces.s + 4 },
   remise: { width: 68, height: 68, borderRadius: 16, alignItems: 'center', justifyContent: 'center', padding: 4 },
   remiseTexte: { color: '#FFFFFF', fontSize: 15, fontWeight: '800', textAlign: 'center' },
@@ -213,4 +215,8 @@ const styles = StyleSheet.create({
   confirmationTexte: { fontSize: 14, color: couleurs.texte, marginBottom: espaces.s },
   actions: { flexDirection: 'row', gap: espaces.s },
   moitie: { flex: 1 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

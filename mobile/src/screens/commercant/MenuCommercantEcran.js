@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,6 +18,7 @@ const ENTREES = [
 
 // Onglet « Plus » : horaires, créneaux, promotions, clients, boutique et profil
 export default function MenuCommercantEcran({ navigation }) {
+  useThemeVersion();
   const { boutique } = useBoutique();
   return (
     <SafeAreaView style={styles.zone}>
@@ -47,7 +49,7 @@ export default function MenuCommercantEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', maxWidth: 600, alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   ligne: {
@@ -71,4 +73,8 @@ const styles = StyleSheet.create({
   textes: { flex: 1 },
   titre: { fontSize: 15, fontWeight: '700', color: couleurs.texte },
   description: { fontSize: 12, color: couleurs.texteSecondaire, marginTop: 2 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

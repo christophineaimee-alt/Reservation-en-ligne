@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -34,9 +35,9 @@ export default function LigneActivite({ reservation, onAccepter, onRefuser, onPr
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: {
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: 16,
     padding: espaces.s + 4,
     marginBottom: espaces.s,
@@ -55,8 +56,12 @@ const styles = StyleSheet.create({
   quand: { fontSize: 12, color: couleurs.primaire, marginTop: 2 },
   actions: { flexDirection: 'row', gap: espaces.s },
   pilule: { minWidth: 84, height: 36, borderRadius: 18, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center' },
-  contour: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: couleurs.bordure },
+  contour: { backgroundColor: couleurs.carte, borderWidth: 1, borderColor: couleurs.bordure },
   plein: { backgroundColor: couleurs.primaire },
   inactif: { opacity: 0.6 },
   pouleTexte: { fontSize: 13, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

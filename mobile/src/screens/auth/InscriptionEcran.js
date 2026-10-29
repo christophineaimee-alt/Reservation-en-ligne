@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +15,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // UC01 : s'inscrire
 export default function InscriptionEcran({ navigation }) {
+  useThemeVersion();
   const { inscription } = useAuth();
   const [role, setRole] = useState('CLIENT');
   const [form, setForm] = useState({
@@ -106,7 +108,7 @@ function ChoixRole({ titre, icone, actif, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   titre: { fontSize: 26, fontWeight: '700', color: couleurs.texte },
   sousTitre: { fontSize: 14, color: couleurs.texteSecondaire, marginTop: espaces.xs, marginBottom: espaces.m },
   roles: { flexDirection: 'row', gap: espaces.s, marginBottom: espaces.m },
@@ -123,4 +125,8 @@ const styles = StyleSheet.create({
   choixActif: { borderColor: couleurs.primaire, backgroundColor: couleurs.primaireClair },
   choixTexte: { fontSize: 15, fontWeight: '600', color: couleurs.texteSecondaire },
   choixTexteActif: { color: couleurs.primaire, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

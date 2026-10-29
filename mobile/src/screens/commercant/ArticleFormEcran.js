@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 import api, { messageErreur } from '../../api/client';
@@ -11,6 +12,7 @@ import { entier, montant } from '../../utils/saisie';
 
 // UC12 : gérer produits et services / UC13 : gérer les stocks
 export default function ArticleFormEcran({ route, navigation }) {
+  useThemeVersion();
   const article = route.params && route.params.article ? route.params.article : null;
   const edition = Boolean(article);
 
@@ -231,13 +233,13 @@ export default function ArticleFormEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   types: { flexDirection: 'row', marginBottom: espaces.m },
   typeFixe: { fontSize: 13, fontWeight: '700', color: couleurs.primaire, marginBottom: espaces.m },
   interrupteur: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: rayon,
     borderWidth: 1,
     borderColor: couleurs.bordure,
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
     marginTop: espaces.l,
   },
   stockTitre: { fontSize: 18, fontWeight: '700', color: couleurs.texte, marginBottom: espaces.m },
-  alerte: { backgroundColor: '#FFF4DB', borderRadius: rayon, padding: 12, marginBottom: espaces.m },
+  alerte: { backgroundColor: couleurs.avertFond, borderRadius: rayon, padding: 12, marginBottom: espaces.m },
   alerteTexte: { color: couleurs.attention, fontSize: 14, fontWeight: '600' },
   suppression: {
     borderWidth: 1,
@@ -265,4 +267,8 @@ const styles = StyleSheet.create({
     marginTop: espaces.l,
   },
   suppressionTexte: { fontSize: 14, color: couleurs.texte, marginBottom: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

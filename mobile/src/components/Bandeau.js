@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces, rayon } from '../theme';
@@ -13,8 +14,12 @@ export default function Bandeau({ type = 'erreur', message }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   bandeau: { padding: 12, borderRadius: rayon, marginBottom: espaces.m },
   erreur: { backgroundColor: couleurs.erreurFond },
   succes: { backgroundColor: couleurs.succesFond },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

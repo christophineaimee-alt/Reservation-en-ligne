@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { couleurs, espaces } from '../theme';
@@ -20,7 +21,7 @@ export default function ChampTexte({ label, erreur, onFocus, onBlur, ...props })
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   groupe: { marginBottom: espaces.m },
   label: { fontSize: 14, fontWeight: '600', color: couleurs.texte, marginBottom: espaces.xs },
   champ: {
@@ -36,4 +37,8 @@ const styles = StyleSheet.create({
   champActif: { borderColor: couleurs.primaire },
   champErreur: { borderColor: couleurs.erreur },
   erreur: { color: couleurs.erreur, fontSize: 13, marginTop: espaces.xs },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

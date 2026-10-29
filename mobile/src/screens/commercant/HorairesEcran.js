@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import api, { messageErreur } from '../../api/client';
@@ -16,6 +17,7 @@ function lignesParDefaut() {
 
 // UC14 : gérer les horaires d'ouverture
 export default function HorairesEcran() {
+  useThemeVersion();
   const [lignes, setLignes] = useState(lignesParDefaut());
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -143,10 +145,10 @@ export default function HorairesEcran() {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   intro: { fontSize: 14, color: couleurs.texteSecondaire, marginBottom: espaces.m },
   carte: {
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: rayon,
     borderWidth: 1,
     borderColor: couleurs.bordure,
@@ -169,4 +171,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tiret: { marginHorizontal: espaces.s, color: couleurs.texteSecondaire },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

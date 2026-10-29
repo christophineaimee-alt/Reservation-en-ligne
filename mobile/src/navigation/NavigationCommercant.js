@@ -1,3 +1,4 @@
+import { useThemeVersion } from '../theme/registre';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +20,7 @@ import ClientsEcran from '../screens/commercant/ClientsEcran';
 import ClientDetailEcran from '../screens/commercant/ClientDetailEcran';
 import MenuCommercantEcran from '../screens/commercant/MenuCommercantEcran';
 import NotificationsEcran from '../screens/commun/NotificationsEcran';
+import NotificationDetailEcran from '../screens/commun/NotificationDetailEcran';
 import ProfilEcran from '../screens/commun/ProfilEcran';
 import { couleurs } from '../theme';
 import { optionsOnglets, optionsPile } from '../theme/navigation';
@@ -27,6 +29,7 @@ import BarreLaterale from '../components/BarreLaterale';
 import AvisCommercantEcran from '../screens/commercant/AvisCommercantEcran';
 import PromotionsEcran from '../screens/commercant/PromotionsEcran';
 import PromotionFormEcran from '../screens/commercant/PromotionFormEcran';
+import ModifierProfilEcran from '../screens/commun/ModifierProfilEcran';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,6 +39,7 @@ function icone(nom) {
 }
 
 function Onglets() {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const large = width >= 900;
   return (
@@ -71,6 +75,7 @@ function Pile() {
   return (
         <Stack.Navigator screenOptions={optionsPile}>
       <Stack.Screen name="Onglets" component={Onglets} options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationDetail" component={NotificationDetailEcran} options={{ title: 'Notification' }} />
       <Stack.Screen name="ReservationCommercantDetail" component={ReservationCommercantDetailEcran} options={{ title: 'Demande de réservation' }} />
       <Stack.Screen
         name="ArticleForm"
@@ -86,6 +91,7 @@ function Pile() {
       <Stack.Screen name="ClientDetail" component={ClientDetailEcran} options={{ title: 'Fiche client' }} />
       <Stack.Screen name="MaBoutique" component={CreerBoutiqueEcran} options={{ title: 'Ma boutique' }} />
       <Stack.Screen name="Profil" component={ProfilEcran} options={{ title: 'Mon profil' }} />
+      <Stack.Screen name="ModifierProfil" component={ModifierProfilEcran} options={{ title: 'Modifier mon profil' }} />
     </Stack.Navigator>
   );
 }

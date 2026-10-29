@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Bouton from './Bouton';
@@ -35,7 +36,7 @@ export default function BlocAvis({ reservation, onDonner, onModifier }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: { backgroundColor: couleurs.carte, borderRadius: rayon, padding: espaces.m, marginVertical: espaces.s, ...ombre },
   invite: { backgroundColor: couleurs.primaireClair },
   titre: { fontSize: 16, fontWeight: '700', color: couleurs.texte },
@@ -44,4 +45,8 @@ const styles = StyleSheet.create({
   reponseTitre: { fontSize: 12, fontWeight: '700', color: couleurs.primaire },
   reponseTexte: { fontSize: 13, color: couleurs.texte, marginTop: 2 },
   bouton: { marginTop: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

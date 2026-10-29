@@ -161,10 +161,11 @@ async function alerterStockSiFaible(idProduitService, idUserCommercant) {
   });
   if (!stock) return;
   const nom = stock.produitService.nom;
+  const cible = { type: 'PRODUIT_SERVICE', id: idProduitService };
   if (stock.quantite === 0) {
-    await notifier(idUserCommercant, 'STOCK_FAIBLE', 'Rupture de stock', `Le produit « ${nom} » est en rupture de stock.`);
+    await notifier(idUserCommercant, 'STOCK_FAIBLE', 'Rupture de stock', `Le produit « ${nom} » est en rupture de stock.`, cible);
   } else if (stock.seuilAlerte > 0 && stock.quantite <= stock.seuilAlerte) {
-    await notifier(idUserCommercant, 'STOCK_FAIBLE', 'Stock faible', `Le stock du produit « ${nom} » est faible (${stock.quantite} restant).`);
+    await notifier(idUserCommercant, 'STOCK_FAIBLE', 'Stock faible', `Le stock du produit « ${nom} » est faible (${stock.quantite} restant).`, cible);
   }
 }
 
@@ -197,14 +198,18 @@ async function expirerReservations() {
       r.client.idUser,
       'RESERVATION_EXPIREE',
       'Réservation expirée',
-      `Votre demande pour « ${r.produitService.nom} » a expiré sans réponse du commerçant.`
+      `Votre demande pour « ${r.produitService.nom} » a expiré sans réponse du commerçant.`,
+      { type: 'RESERVATION', id: r.idReservation }
     );
+    
     await notifier(
       r.produitService.boutique.commercant.idUser,
       'RESERVATION_EXPIREE',
       'Demande expirée',
-      `Une demande pour « ${r.produitService.nom} » a expiré sans réponse.`
+      `Une demande pour « ${r.produitService.nom} » a expiré sans réponse.`,
+      { type: 'RESERVATION', id: r.idReservation }
     );
+    
   }
   return total;
 }

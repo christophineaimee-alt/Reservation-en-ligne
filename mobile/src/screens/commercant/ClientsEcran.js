@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +16,7 @@ import { formatDateHeure } from '../../utils/format';
 
 // UC19 : consulter l'historique des clients
 export default function ClientsEcran({ navigation }) {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const [clients, setClients] = useState([]);
   const [recherche, setRecherche] = useState('');
@@ -96,8 +98,12 @@ export default function ClientsEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginVertical: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

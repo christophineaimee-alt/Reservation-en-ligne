@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { couleurs, espaces, ombre } from '../theme';
@@ -10,7 +11,7 @@ export default function Puce({ titre, actif, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   puce: {
     paddingHorizontal: 16,
     paddingVertical: 9,
@@ -21,4 +22,8 @@ const styles = StyleSheet.create({
   actif: { backgroundColor: couleurs.primaire, ...ombre },
   texte: { fontSize: 14, color: couleurs.texteSecondaire, fontWeight: '600' },
   texteActif: { color: '#FFFFFF' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

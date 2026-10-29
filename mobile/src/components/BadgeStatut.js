@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { infoStatut } from '../utils/statuts';
@@ -9,7 +10,7 @@ export default function BadgeStatut({ statut }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   badge: {
     fontSize: 12,
     fontWeight: '700',
@@ -19,4 +20,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignSelf: 'flex-start',
   },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,8 +27,12 @@ export default function Etoiles({ note = 0, taille = 14, nombre, style }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: { flexDirection: 'row', alignItems: 'center', gap: 2 },
   texte: { color: couleurs.texteSecondaire, fontWeight: '600', marginLeft: 6 },
   vide: { fontSize: 12, color: couleurs.texteSecondaire },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

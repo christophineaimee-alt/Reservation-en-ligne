@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,6 +29,7 @@ const ANNULATION_RAPIDES = ['Imprévu de ma part', 'Fermeture exceptionnelle', '
 
 // UC17 : accepter / UC18 : refuser ou proposer une autre date / annuler une réservation acceptée
 export default function ReservationCommercantDetailEcran({ route }) {
+  useThemeVersion();
   const { idReservation } = route.params;
   const action = route.params ? route.params.action : null;
   const { width } = useWindowDimensions();
@@ -277,7 +279,7 @@ export default function ReservationCommercantDetailEcran({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -311,4 +313,8 @@ const styles = StyleSheet.create({
   rapides: { flexDirection: 'row', flexWrap: 'wrap', rowGap: espaces.s, marginBottom: espaces.m },
   label: { fontSize: 14, fontWeight: '600', color: couleurs.texte, marginBottom: espaces.xs },
   defile: { flexGrow: 0, marginBottom: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

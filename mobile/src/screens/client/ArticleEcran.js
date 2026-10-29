@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,6 +15,7 @@ import PrixPromo from '../../components/PrixPromo';
 
 // UC05 : détail d'un produit ou d'un service
 export default function ArticleEcran({ route, navigation }) {
+  useThemeVersion();
   const { idProduitService } = route.params;
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -129,7 +131,7 @@ function Ligne({ icone, titre, valeur, rouge }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -171,4 +173,8 @@ const styles = StyleSheet.create({
   textes: { flex: 1 },
   ligneTitre: { fontSize: 12, color: couleurs.texteSecondaire },
   ligneValeur: { fontSize: 15, fontWeight: '600', color: couleurs.texte, marginTop: 1 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -51,7 +52,7 @@ export default function CarteArticle({ article, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     backgroundColor: couleurs.carte,
     borderRadius: rayon,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '700',
     color: couleurs.attention,
-    backgroundColor: '#FFF4DB',
+    backgroundColor: couleurs.avertFond,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 20,
@@ -97,9 +98,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: couleurs.carte,
     borderWidth: 1,
     borderColor: couleurs.bordure,
   },
   pouleTexte: { fontSize: 13, fontWeight: '700', color: couleurs.primaire },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

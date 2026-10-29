@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Linking, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +17,7 @@ import { formatPrix, initiale, libelleQuand } from '../../utils/format';
 
 // UC19 : fiche d'un client et ses réservations dans cette boutique
 export default function ClientDetailEcran({ route, navigation }) {
+  useThemeVersion();
   const { idClient } = route.params;
   const { width } = useWindowDimensions();
   const [client, setClient] = useState(null);
@@ -96,7 +98,7 @@ export default function ClientDetailEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -115,4 +117,8 @@ const styles = StyleSheet.create({
   lettre: { fontSize: 34, fontWeight: '700', color: '#FFFFFF' },
   nom: { fontSize: 22, fontWeight: '700', color: '#FFFFFF', marginTop: espaces.m },
   sousTitre: { fontSize: 14, color: 'rgba(255,255,255,0.88)', marginTop: 4 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces } from '../theme';
@@ -11,7 +12,11 @@ export default function Chargement({ message }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   conteneur: { padding: espaces.xl, alignItems: 'center', justifyContent: 'center' },
   message: { marginTop: espaces.s, color: couleurs.texteSecondaire },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

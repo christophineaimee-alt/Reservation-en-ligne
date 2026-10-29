@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import BandeauChiffres from './BandeauChiffres';
@@ -133,12 +134,12 @@ export default function EvaluationPaiements({ donnees, libellePeriode }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   entete: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: espaces.m },
   titre: { fontSize: 18, fontWeight: '600', color: couleurs.texte },
   etiquettes: { flexDirection: 'row', gap: 6 },
   etiquette: { backgroundColor: couleurs.primaireClair, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 4 },
-  demo: { backgroundColor: '#FFF4DB' },
+  demo: { backgroundColor: couleurs.avertFond },
   etiquetteTexte: { fontSize: 11, fontWeight: '700', color: couleurs.primaire },
   deuxColonnes: { gap: espaces.m },
   enLigne: { flexDirection: 'row', alignItems: 'flex-start' },
@@ -151,13 +152,13 @@ const styles = StyleSheet.create({
   operateurLigne: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   operateurNom: { flex: 1, fontSize: 13, fontWeight: '600', color: couleurs.texte },
   operateurMontant: { fontSize: 13, fontWeight: '700', color: couleurs.texte },
-  piste: { height: 6, borderRadius: 3, backgroundColor: '#F1F2FA', marginTop: 6, overflow: 'hidden' },
+  piste: { height: 6, borderRadius: 3, backgroundColor: couleurs.surface3, marginTop: 6, overflow: 'hidden' },
   barre: { height: 6, borderRadius: 3 },
   ligne: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: espaces.s + 4,
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: 16,
     padding: espaces.s + 4,
     marginBottom: espaces.s,
@@ -171,4 +172,8 @@ const styles = StyleSheet.create({
   montant: { fontSize: 14, fontWeight: '700', color: couleurs.texte },
   etat: { borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 },
   etatTexte: { fontSize: 11, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

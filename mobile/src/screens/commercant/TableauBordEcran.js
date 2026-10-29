@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +20,12 @@ import Chargement from '../../components/Chargement';
 import Puce from '../../components/Puce';
 import { couleurs, espaces, rayon } from '../../theme';
 import EvaluationPaiements from '../../components/EvaluationPaiements';
+import CarteProgression from '../../components/CarteProgression';
+import Tableau, { CelluleAvatar, Cellule } from '../../components/Tableau';
+import Pastille from '../../components/Pastille';
+import IconeAction from '../../components/IconeAction';
+import { PASTILLES_RESERVATION, pastillePaiement } from '../../utils/pastilles';
+import { libelleQuand } from '../../utils/format';
 
 const PERIODES = [
   { titre: "Aujourd'hui", valeur: 'jour' },
@@ -37,6 +44,7 @@ function pluriel(n, mot) {
 
 // UC20 : consulter le tableau de bord (+ UC16, UC17 : activité récente)
 export default function TableauBordEcran({ navigation }) {
+  useThemeVersion();
   const { boutique } = useBoutique();
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -46,6 +54,7 @@ export default function TableauBordEcran({ navigation }) {
   const [attente, setAttente] = useState([]);
   const [paiements, setPaiements] = useState(null);
   const [avis, setAvis] = useState(null);
+  const [recherche, setRecherche] = useState('');
   const [nonLues, setNonLues] = useState(0);
   const [jourChoisi, setJourChoisi] = useState(ymdLocal(new Date()));
   const [occupe, setOccupe] = useState(null);
@@ -135,6 +144,15 @@ export default function TableauBordEcran({ navigation }) {
   const taux = donnees && donnees.tauxAcceptation !== null ? `${donnees.tauxAcceptation} %` : '—';
   const total = donnees ? donnees.reservationsPeriode.total : 0;
   const parStatut = donnees ? donnees.reservationsPeriode.parStatut : {};
+  const motif = recherche.trim().toLowerCase();
+  const lignesTableau = recentes
+    .filter((r) => {
+      if (!motif) return true;
+      const client = r.client ? `${r.client.prenom} ${r.client.nom}` : '';
+      const article = r.produitService ? r.produitService.nom : '';
+      return `${client} ${article}`.toLowerCase().includes(motif);
+    })
+    .slice(0, 8);
 
   return (
     <SafeAreaView style={styles.zone}>
@@ -151,10 +169,13 @@ export default function TableauBordEcran({ navigation }) {
         }
       >
         <EnTetePage
-          titre="Bon retour"
+          titre="Tableau de bord"
           sousTitre={boutique ? `${boutique.nom} · voici ce qui se passe dans votre boutique` : 'Voici ce qui se passe dans votre boutique'}
           nonLues={nonLues}
           onNotifications={() => navigation.navigate('Notifications')}
+          recherche={recherche}
+          onChangeRecherche={setRecherche}
+          placeholderRecherche="Rechercher une réservation…"
         />
 
         {boutique && boutique.statut === 'EN_ATTENTE' ? (
@@ -191,14 +212,45 @@ export default function TableauBordEcran({ navigation }) {
           <View>
             <BandeauChiffres
               items={[
-                { titre: "Aujourd'hui", valeur: donnees.reservationsDuJour, note: 'réservations', ton: 'neutre' },
-                { titre: 'Sur la période', valeur: total, note: 'au total', ton: 'neutre' },
-                {
-                  titre: 'Acceptation',
-                  valeur: taux,
-                  note: donnees.tauxAcceptation === null ? undefined : donnees.tauxAcceptation >= 50 ? 'bon taux' : 'à améliorer',
-                  ton: donnees.tauxAcceptation !== null && donnees.tauxAcceptation < 50 ? 'baisse' : 'hausse',
-                },
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: espaces.m, marginBottom: espaces.m }}>
+              <CarteProgression
+                icone="calendar-outline"
+                ton="primaire"
+                titre="Réservations du jour"
+                valeur={donnees.reservationsDuJour}
+                pourcentage={total > 0 ? Math.min(100, (donnees.reservationsDuJour * 100) / total) : 0}
+                note={`${total} sur la période`}
+                style={{ flexGrow: 1, flexBasis: large ? '23%' : '46%' }}
+              />
+              <CarteProgression
+                icone="checkmark-done-outline"
+                ton="turquoise"
+                titre="Taux d'acceptation"
+                valeur={taux}
+                pourcentage={donnees.tauxAcceptation || 0}
+                note={`${parStatut.ACCEPTEE || 0} acceptée(s)`}
+                style={{ flexGrow: 1, flexBasis: large ? '23%' : '46%' }}
+              />
+              <CarteProgression
+                icone="time-outline"
+                ton="accent"
+                titre="Demandes en attente"
+                valeur={donnees.demandesEnAttente}
+                pourcentage={total > 0 ? Math.min(100, ((parStatut.EN_ATTENTE || 0) * 100) / total) : 0}
+                note="à traiter"
+                onPress={() => navigation.navigate('Reservations', { statut: 'EN_ATTENTE', cle: Date.now() })}
+                style={{ flexGrow: 1, flexBasis: large ? '23%' : '46%' }}
+              />
+              <CarteProgression
+                icone="wallet-outline"
+                ton="primaire"
+                titre="Paiements réussis"
+                valeur={paiements ? paiements.nombrePayes : 0}
+                pourcentage={paiements && paiements.tauxReussite !== null ? paiements.tauxReussite : 0}
+                note={paiements ? `${Math.round(paiements.totalEncaisse)} Ar encaissés` : 'indisponible'}
+                style={{ flexGrow: 1, flexBasis: large ? '23%' : '46%' }}
+              />
+            </View>
               ]}
             />
 
@@ -237,6 +289,58 @@ export default function TableauBordEcran({ navigation }) {
                 onPress={() => navigation.navigate('Avis')}
               />
             </ScrollView>
+            <Panneau
+              titre="Dernières réservations"
+              lien="Voir tout"
+              onLien={() => navigation.navigate('Reservations')}
+              style={{ marginBottom: espaces.m }}
+            >
+              <Tableau
+                cle={(r) => String(r.idReservation)}
+                lignes={lignesTableau}
+                vide={recherche ? 'Aucun résultat pour cette recherche.' : 'Aucune réservation pour le moment.'}
+                onLigne={(r) => navigation.navigate('ReservationCommercantDetail', { idReservation: r.idReservation })}
+                colonnes={[
+                  {
+                    titre: 'Client',
+                    flex: 2,
+                    minWidth: 170,
+                    rendu: (r) => <CelluleAvatar nom={r.client ? `${r.client.prenom} ${r.client.nom}` : 'Client'} />,
+                  },
+                  { titre: 'Article', flex: 2, minWidth: 150, rendu: (r) => <Cellule>{r.produitService ? r.produitService.nom : '—'}</Cellule> },
+                  { titre: 'Rendez-vous', flex: 2, minWidth: 150, rendu: (r) => <Cellule>{libelleQuand(r)}</Cellule> },
+                  {
+                    titre: 'Statut',
+                    flex: 1.3,
+                    minWidth: 120,
+                    rendu: (r) => {
+                      const p = PASTILLES_RESERVATION[r.statut];
+                      return p ? <Pastille texte={p.texte} ton={p.ton} /> : null;
+                    },
+                  },
+                  {
+                    titre: 'Paiement',
+                    flex: 1.3,
+                    minWidth: 120,
+                    rendu: (r) => {
+                      const p = pastillePaiement(r);
+                      return p ? <Pastille texte={p.texte} ton={p.ton} /> : <Cellule>—</Cellule>;
+                    },
+                  },
+                  {
+                    titre: '',
+                    flex: 0.6,
+                    minWidth: 60,
+                    rendu: (r) => (
+                      <IconeAction
+                        icone="eye-outline"
+                        onPress={() => navigation.navigate('ReservationCommercantDetail', { idReservation: r.idReservation })}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            </Panneau>
 
             <View style={[styles.deuxColonnes, large && styles.enLigne]}>
               <Panneau titre="Réservations reçues" lien="7 derniers jours" style={large ? { flex: 2 } : null}>
@@ -313,10 +417,10 @@ export default function TableauBordEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
-  info: { backgroundColor: '#FFF4DB', borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m },
+  info: { backgroundColor: couleurs.avertFond, borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m },
   rejet: { backgroundColor: couleurs.erreurFond },
   infoTitre: { fontSize: 15, fontWeight: '700', color: couleurs.attention },
   infoTexte: { fontSize: 14, color: couleurs.texte, marginTop: espaces.xs },
@@ -330,4 +434,8 @@ const styles = StyleSheet.create({
   vide: { fontSize: 14, color: couleurs.texteSecondaire },
   ligneStatut: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: espaces.xs },
   compte: { fontSize: 16, fontWeight: '700', color: couleurs.texte },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

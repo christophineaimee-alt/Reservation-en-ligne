@@ -45,10 +45,16 @@ const modifier = asyncHandler(async (req, res) => {
   let alerte = null;
   if (indisponible) {
     alerte = `Le produit « ${article.nom} » est en rupture de stock : il est indisponible.`;
-    await notifier(req.utilisateur.idUser, 'STOCK_FAIBLE', 'Rupture de stock', alerte);
+    await notifier(req.utilisateur.idUser, 'STOCK_FAIBLE', 'Rupture de stock', alerte, {
+      type: 'PRODUIT_SERVICE',
+      id: article.idProduitService,
+    });
   } else if (stock.seuilAlerte > 0 && stock.quantite <= stock.seuilAlerte) {
     alerte = `Le stock du produit « ${article.nom} » est faible (${stock.quantite} restant).`;
-    await notifier(req.utilisateur.idUser, 'STOCK_FAIBLE', 'Stock faible', alerte);
+    await notifier(req.utilisateur.idUser, 'STOCK_FAIBLE', 'Stock faible', alerte, {
+      type: 'PRODUIT_SERVICE',
+      id: article.idProduitService,
+    });
   }
 
   res.json({ message: 'Stock mis à jour', stock, indisponible, alerte });

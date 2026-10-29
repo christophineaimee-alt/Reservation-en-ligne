@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -34,7 +35,7 @@ export default function CarteStat({ titre, valeur, accent, onPress, icone, vedet
   return <View style={styles.carte}>{interieur}</View>;
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     flexGrow: 1,
     flexBasis: '45%',
@@ -58,4 +59,8 @@ const styles = StyleSheet.create({
   titre: { fontSize: 13, color: couleurs.texteSecondaire, marginTop: espaces.xs },
   blanc: { color: '#FFFFFF' },
   blancClair: { color: 'rgba(255,255,255,0.85)' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,6 +26,7 @@ const FILTRES = [
 
 // UC23 : valider les boutiques
 export default function BoutiquesAValiderEcran({ navigation }) {
+  useThemeVersion();
   const nonLues = useNonLues();
   const { width } = useWindowDimensions();
   const [statut, setStatut] = useState('EN_ATTENTE');
@@ -150,8 +152,12 @@ export default function BoutiquesAValiderEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   puces: { flexDirection: 'row', marginVertical: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

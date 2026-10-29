@@ -246,6 +246,8 @@ model Notification {
   titre            String
   message          String
   typeNotification String
+  typeCible        String?
+  idCible          Int?
   lue              Boolean     @default(false)
   dateEnvoi        DateTime    @default(now())
   idUser           Int
@@ -339,4 +341,15 @@ model MouvementPoints {
   createdAt     DateTime            @default(now())
 
   @@index([idClient])
+}
+model MessageContact {
+  idMessage Int      @id @default(autoincrement())
+  nom       String
+  email     String
+  sujet     String
+  message   String
+  lu        Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([lu])
 }

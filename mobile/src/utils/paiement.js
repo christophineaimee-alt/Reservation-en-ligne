@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import { couleurs } from '../theme';
 
 // Opérateurs de paiement mobile à Madagascar
@@ -12,9 +13,13 @@ export function nomOperateur(code) {
   return operateur ? operateur.nom : code;
 }
 
-export const STATUTS_PAIEMENT = {
+const creerSTATUTS_PAIEMENT = () => ({
   REUSSI: { texte: 'Réussi', fond: couleurs.succesFond, couleur: couleurs.succes },
   EN_ATTENTE: { texte: 'En cours', fond: couleurs.primaireClair, couleur: couleurs.primaire },
   ECHOUE: { texte: 'Échoué', fond: couleurs.erreurFond, couleur: couleurs.erreur },
-  EXPIRE: { texte: 'Expiré', fond: '#EEF0F5', couleur: couleurs.texteSecondaire },
-};
+  EXPIRE: { texte: 'Expiré', fond: couleurs.neutreFond, couleur: couleurs.texteSecondaire },
+});
+export const STATUTS_PAIEMENT = creerSTATUTS_PAIEMENT();
+enregistrerStyles(() => {
+  Object.assign(STATUTS_PAIEMENT, creerSTATUTS_PAIEMENT());
+});

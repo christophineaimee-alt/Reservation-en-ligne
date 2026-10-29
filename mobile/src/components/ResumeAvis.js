@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,7 +34,7 @@ export default function ResumeAvis({ resume }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flexDirection: 'row', alignItems: 'center', gap: espaces.m },
   gauche: { alignItems: 'center', minWidth: 90 },
   note: { fontSize: 40, fontWeight: '800', color: couleurs.texte },
@@ -41,7 +42,11 @@ const styles = StyleSheet.create({
   droite: { flex: 1, gap: 5 },
   ligne: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   etiquette: { width: 10, fontSize: 12, color: couleurs.texte, fontWeight: '600' },
-  piste: { flex: 1, height: 6, borderRadius: 3, backgroundColor: '#F1F2FA', overflow: 'hidden' },
+  piste: { flex: 1, height: 6, borderRadius: 3, backgroundColor: couleurs.surface3, overflow: 'hidden' },
   barre: { height: 6, borderRadius: 3, backgroundColor: COULEUR_ETOILE },
   compte: { width: 22, fontSize: 12, color: couleurs.texteSecondaire, textAlign: 'right' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

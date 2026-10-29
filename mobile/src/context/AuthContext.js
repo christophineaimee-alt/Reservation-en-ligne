@@ -44,9 +44,11 @@ export function AuthProvider({ children }) {
     const { data } = await api.post('/auth/inscription', donnees);
     return data;
   };
+    // Après une modification du profil : l'utilisateur affiché partout est mis à jour
+  const mettreAJour = (nouveau) => setUtilisateur(nouveau);
 
   return (
-    <AuthContext.Provider value={{ utilisateur, chargement, connexion, inscription, deconnexion }}>
+    <AuthContext.Provider value={{ utilisateur, chargement, connexion, inscription, deconnexion, mettreAJour }}>
       {children}
     </AuthContext.Provider>
   );

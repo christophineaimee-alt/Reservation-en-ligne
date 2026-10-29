@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { FlatList, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +24,7 @@ const FILTRES = [
 
 // UC09 : consulter l'historique des réservations
 export default function MesReservationsEcran({ navigation }) {
+  useThemeVersion();
   const [statut, setStatut] = useState(null);
   const [reservations, setReservations] = useState([]);
   const [total, setTotal] = useState(0);
@@ -116,10 +118,14 @@ export default function MesReservationsEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   entete: { width: '100%', maxWidth: 600, alignSelf: 'center', padding: espaces.m, paddingBottom: 0 },
   titre: { fontSize: 22, fontWeight: '700', color: couleurs.texte, marginBottom: espaces.s },
   puces: { paddingVertical: espaces.s },
   liste: { width: '100%', maxWidth: 600, alignSelf: 'center', padding: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

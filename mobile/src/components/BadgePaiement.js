@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs } from '../theme';
@@ -16,7 +17,7 @@ export default function BadgePaiement({ reservation }) {
     couleur = couleurs.primaire;
   } else if (reservation.statut === 'ACCEPTEE') {
     texte = 'À payer';
-    fond = '#FFF4DB';
+    fond = couleurs.avertFond;
     couleur = couleurs.attention;
   }
   if (!texte) return null;
@@ -27,7 +28,11 @@ export default function BadgePaiement({ reservation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   badge: { borderRadius: 20, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-end' },
   texte: { fontSize: 12, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

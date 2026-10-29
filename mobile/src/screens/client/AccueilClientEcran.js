@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +19,7 @@ const LIMITE = 10;
 
 // UC03 : rechercher une boutique / UC04 : rechercher par catégorie
 export default function AccueilClientEcran({ navigation }) {
+  useThemeVersion();
   const { utilisateur } = useAuth();
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -175,7 +177,7 @@ export default function AccueilClientEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   liste: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   defilement: { marginHorizontal: -espaces.m, marginTop: espaces.m },
@@ -191,4 +193,8 @@ const styles = StyleSheet.create({
   compte: { fontSize: 14, fontWeight: '500', color: couleurs.primaire },
   colonnes: { gap: espaces.m },
   cellule: { flex: 1, maxWidth: '50%' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

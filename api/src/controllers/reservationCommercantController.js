@@ -88,8 +88,10 @@ const accepter = asyncHandler(async (req, res) => {
     r.client.utilisateur.idUser,
     'RESERVATION_ACCEPTEE',
     'Réservation acceptée',
-    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} est acceptée.`
+    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} est acceptée.`,
+    { type: 'RESERVATION', id: r.idReservation }
   );
+  
 
   const reservation = await prisma.reservation.findUnique({
     where: { idReservation: r.idReservation },
@@ -120,8 +122,10 @@ const refuser = asyncHandler(async (req, res) => {
     r.client.utilisateur.idUser,
     'RESERVATION_REFUSEE',
     'Réservation refusée',
-    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} est refusée. Motif : ${motif}`
+    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} est refusée. Motif : ${motif}`,
+    { type: 'RESERVATION', id: r.idReservation }
   );
+  
 
   res.json({ message: 'Réservation refusée', idReservation: r.idReservation, statut: 'REFUSEE', motifRefus: motif });
 });
@@ -148,8 +152,10 @@ const annuler = asyncHandler(async (req, res) => {
     r.client.utilisateur.idUser,
     'RESERVATION_ANNULEE_COMMERCANT',
     'Réservation annulée par le commerçant',
-    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} a été annulée. Motif : ${motif}`
+    `Votre réservation de « ${r.produitService.nom} » chez ${r.produitService.boutique.nom} a été annulée. Motif : ${motif}`,
+    { type: 'RESERVATION', id: r.idReservation }
   );
+  
   res.json({
     message: 'Réservation annulée, le client est prévenu',
     idReservation: r.idReservation,

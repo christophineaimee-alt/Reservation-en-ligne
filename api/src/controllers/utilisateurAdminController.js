@@ -2,7 +2,8 @@ const prisma = require('../config/prisma');
 const AppError = require('../utils/AppError');
 const asyncHandler = require('../utils/asyncHandler');
 const parseId = require('../utils/parseId');
-const { notifier } = require('../services/notificationService');
+const bcrypt = require('bcryptjs');
+const { notifier, notifierAdmins } = require('../services/notificationService');
 
 const ROLES = ['ADMIN', 'CLIENT', 'COMMERCANT'];
 const STATUTS = ['ACTIF', 'SUSPENDU', 'BLOQUE'];
@@ -128,4 +129,26 @@ const agir = asyncHandler(async (req, res) => {
   res.json({ message: 'Compte supprimé', idUser: id });
 });
 
-module.exports = { lister, detail, agir };
+// UC22 : un administrateur crée un autre compte administrateur
+const creerAdministrateur = asyncHandler(async (req, res) => {
+  const { nom, prenom, email, telephone, motDePasse } = req.body;
+  const existant = await prisma.utilisateur.findFirst({
+    where: { OR: [{ email }, { telephone }] },
+  });
+  if (existant) {
+    throw new AppError('Un compte existe déjà avec cet e-mail ou ce téléphone', 409);
+  }
+  const hash = await bcrypt.hash(motDePasse, 10);
+  const cree = await prisma.utilisateur.create({
+    data: { nom, prenom, email, telephone, motDePasse: hash, role: 'ADMIN', admin: { create: {} } },
+    select: choixUtilisateur,
+  });
+  await notifierAdmins(
+    'ADMIN_AJOUTE',
+    'Nouvel administrateur',
+    `${req.utilisateur.prenom} ${req.utilisateur.nom} a ajouté ${prenom} ${nom} (${email}) comme administrateur.`
+  );
+  res.status(201).json({ message: 'Administrateur créé', utilisateur: cree });
+});
+
+module.exports = { lister, detail, agir, creerAdministrateur };

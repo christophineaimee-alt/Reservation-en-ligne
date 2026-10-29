@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import { couleurs } from '../theme';
 import { formatPrix } from './format';
 
@@ -15,12 +16,16 @@ export function libelleRemise(promotion) {
   return promotion.typeRemise === 'POURCENTAGE' ? `-${valeur} %` : `-${formatPrix(valeur)}`;
 }
 
-export const ETATS_PROMOTION = {
+const creerETATS_PROMOTION = () => ({
   EN_COURS: { texte: 'En cours', fond: couleurs.succesFond, couleur: couleurs.succes },
   A_VENIR: { texte: 'À venir', fond: couleurs.primaireClair, couleur: couleurs.primaire },
-  TERMINEE: { texte: 'Terminée', fond: '#EEF0F5', couleur: couleurs.texteSecondaire },
-  DESACTIVEE: { texte: 'Désactivée', fond: '#FFF4DB', couleur: couleurs.attention },
-};
+  TERMINEE: { texte: 'Terminée', fond: couleurs.neutreFond, couleur: couleurs.texteSecondaire },
+  DESACTIVEE: { texte: 'Désactivée', fond: couleurs.avertFond, couleur: couleurs.attention },
+});
+export const ETATS_PROMOTION = creerETATS_PROMOTION();
+enregistrerStyles(() => {
+  Object.assign(ETATS_PROMOTION, creerETATS_PROMOTION());
+});
 
 function deuxChiffres(n) {
   return String(n).padStart(2, '0');

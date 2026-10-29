@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -55,16 +56,20 @@ export default function CarteVedette({ icone, petitTitre, titre, pourcentage, ve
   return <View style={style}>{interieur}</View>;
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: { backgroundColor: couleurs.carte, borderRadius: rayon, ...ombre },
   interieur: { padding: espaces.m, borderRadius: rayon, minHeight: 124, justifyContent: 'space-between' },
   haut: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   pastille: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  pastilleBlanche: { backgroundColor: '#FFFFFF' },
+  pastilleBlanche: { backgroundColor: couleurs.carte },
   pastilleViolette: { backgroundColor: couleurs.primaire },
   bas: { flexDirection: 'row', alignItems: 'flex-end', marginTop: espaces.m },
   textes: { flex: 1 },
   petit: { fontSize: 11, color: couleurs.texteSecondaire },
   petitBlanc: { color: 'rgba(255,255,255,0.8)' },
   titre: { fontSize: 18, fontWeight: '700', marginTop: 2 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

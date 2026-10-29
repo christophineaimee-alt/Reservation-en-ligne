@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import BadgeStatut from './BadgeStatut';
@@ -32,7 +33,7 @@ export default function CarteReservation({ reservation, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     backgroundColor: couleurs.carte,
     borderRadius: rayon,
@@ -49,4 +50,8 @@ const styles = StyleSheet.create({
   bas: { flexDirection: 'row', justifyContent: 'space-between', marginTop: espaces.s },
   detail: { fontSize: 14, color: couleurs.texteSecondaire },
   total: { fontSize: 15, fontWeight: '700', color: couleurs.texte },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

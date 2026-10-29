@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +20,7 @@ const REJETS_RAPIDES = ['Informations incomplètes', 'Logo ou photo manquant', '
 
 // UC23 : examiner une boutique, la valider ou la rejeter
 export default function BoutiqueAdminDetailEcran({ route }) {
+  useThemeVersion();
   const { idBoutique } = route.params;
   const action = route.params ? route.params.action : null;
   const { width } = useWindowDimensions();
@@ -190,7 +192,7 @@ export default function BoutiqueAdminDetailEcran({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -213,4 +215,8 @@ const styles = StyleSheet.create({
   ligneHoraire: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 6 },
   jour: { fontSize: 14, color: couleurs.texteSecondaire },
   heures: { fontSize: 14, fontWeight: '600', color: couleurs.texte },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

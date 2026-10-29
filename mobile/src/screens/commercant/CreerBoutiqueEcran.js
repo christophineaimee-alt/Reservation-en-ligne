@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import api, { messageErreur } from '../../api/client';
@@ -10,14 +11,19 @@ import { useAuth } from '../../context/AuthContext';
 import { useBoutique } from '../../context/BoutiqueContext';
 import { couleurs, espaces, rayon } from '../../theme';
 
-const STATUTS = {
-  EN_ATTENTE: { libelle: 'En attente de validation', couleur: '#B7791F', fond: '#FFF4DB' },
+const creerSTATUTS = () => ({
+  EN_ATTENTE: { libelle: 'En attente de validation', couleur: '#B7791F', fond: couleurs.avertFond },
   VALIDEE: { libelle: 'Validée', couleur: couleurs.succes, fond: couleurs.succesFond },
   REJETEE: { libelle: 'Rejetée', couleur: couleurs.erreur, fond: couleurs.erreurFond },
-};
+});
+const STATUTS = creerSTATUTS();
+enregistrerStyles(() => {
+  Object.assign(STATUTS, creerSTATUTS());
+});
 
 // UC11 : créer sa boutique (et la modifier ensuite)
 export default function CreerBoutiqueEcran() {
+  useThemeVersion();
   const { boutique, recharger } = useBoutique();
   const { deconnexion } = useAuth();
   const modification = Boolean(boutique);
@@ -135,7 +141,7 @@ export default function CreerBoutiqueEcran() {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   titre: { fontSize: 24, fontWeight: '700', color: couleurs.texte, marginBottom: espaces.s },
   intro: { fontSize: 14, color: couleurs.texteSecondaire, marginBottom: espaces.m },
   statut: { borderRadius: rayon, padding: espaces.m, marginBottom: espaces.m },
@@ -144,4 +150,8 @@ const styles = StyleSheet.create({
   label: { fontSize: 14, fontWeight: '600', color: couleurs.texte, marginBottom: espaces.s },
   categories: { flexDirection: 'row', flexWrap: 'wrap', rowGap: espaces.s },
   erreurCategorie: { color: couleurs.erreur, fontSize: 13, marginTop: espaces.xs },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

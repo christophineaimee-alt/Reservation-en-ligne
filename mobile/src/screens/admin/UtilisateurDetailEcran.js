@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +17,7 @@ import { infoRole, infoStatutCompte } from '../../utils/statuts';
 
 // UC22 : fiche d'un compte, suspendre / réactiver / supprimer
 export default function UtilisateurDetailEcran({ route, navigation }) {
+  useThemeVersion();
   const { idUser } = route.params;
   const { utilisateur: moi } = useAuth();
   const { width } = useWindowDimensions();
@@ -155,7 +157,7 @@ export default function UtilisateurDetailEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -177,4 +179,8 @@ const styles = StyleSheet.create({
   badges: { flexDirection: 'row', gap: espaces.s, marginTop: espaces.s },
   note: { fontSize: 14, color: couleurs.texteSecondaire, marginTop: espaces.m },
   aide: { fontSize: 14, color: couleurs.texteSecondaire, marginVertical: espaces.m, lineHeight: 20 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

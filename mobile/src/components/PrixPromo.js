@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs } from '../theme';
@@ -19,10 +20,14 @@ export default function PrixPromo({ prix, promotion, style, fin = false }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
   ancien: { fontSize: 13, color: couleurs.texteSecondaire, textDecorationLine: 'line-through' },
   pastille: { backgroundColor: couleurs.erreur, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
   pastilleTexte: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
   fin: { fontSize: 12, color: couleurs.erreur, fontWeight: '600' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

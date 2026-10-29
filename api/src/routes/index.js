@@ -9,6 +9,7 @@ router.use('/reservations', require('./reservation.routes'));
 router.use('/paiements', require('./paiement.routes'));
 router.use('/avis', require('./avis.routes'));
 router.use('/promotions', require('./promotion.routes'));
+router.use('/visiteur', require('./visiteur.routes'));
 router.use('/notifications', require('./notification.routes'));
 router.use('/', require('./catalogue.routes'));
 

@@ -1,12 +1,17 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces, rayon, ombre } from '../theme';
 
-const TONS = {
+const creerTONS = () => ({
   hausse: { fond: couleurs.succesFond, couleur: couleurs.succes, fleche: '▲ ' },
   baisse: { fond: couleurs.erreurFond, couleur: couleurs.erreur, fleche: '▼ ' },
   neutre: { fond: couleurs.primaireClair, couleur: couleurs.primaire, fleche: '' },
-};
+});
+const TONS = creerTONS();
+enregistrerStyles(() => {
+  Object.assign(TONS, creerTONS());
+});
 
 // items : [{ titre, valeur, note?, ton? ('hausse' | 'baisse' | 'neutre') }]
 export default function BandeauChiffres({ items }) {
@@ -32,7 +37,7 @@ export default function BandeauChiffres({ items }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     flexDirection: 'row',
     backgroundColor: couleurs.carte,
@@ -47,4 +52,8 @@ const styles = StyleSheet.create({
   valeur: { fontSize: 22, fontWeight: '600', color: couleurs.texte, marginTop: 4 },
   pastille: { alignSelf: 'flex-start', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3, marginTop: 8 },
   note: { fontSize: 10, fontWeight: '600' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

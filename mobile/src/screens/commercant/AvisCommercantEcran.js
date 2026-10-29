@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,6 +18,7 @@ import { couleurs, espaces } from '../../theme';
 
 // Avis des clients et réponses du commerçant
 export default function AvisCommercantEcran({ navigation }) {
+  useThemeVersion();
   const { width } = useWindowDimensions();
   const large = width >= 900;
   const [filtre, setFiltre] = useState('');
@@ -188,7 +190,7 @@ export default function AvisCommercantEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   deuxColonnes: { gap: espaces.m },
@@ -211,4 +213,8 @@ const styles = StyleSheet.create({
   },
   actions: { flexDirection: 'row', gap: espaces.s, marginTop: espaces.s },
   moitie: { flex: 1 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

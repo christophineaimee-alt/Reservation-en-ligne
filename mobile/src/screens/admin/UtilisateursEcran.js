@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,6 +36,7 @@ const STATUTS = [
 
 // UC22 : gérer les utilisateurs
 export default function UtilisateursEcran({ navigation }) {
+  useThemeVersion();
   const nonLues = useNonLues();
   const { width } = useWindowDimensions();
   const [recherche, setRecherche] = useState('');
@@ -104,6 +106,10 @@ export default function UtilisateursEcran({ navigation }) {
           nonLues={nonLues}
           onNotifications={() => navigation.navigate('Notifications')}
         />
+
+        <View style={styles.ajout}>
+          <Bouton titre="+ Ajouter un administrateur" onPress={() => navigation.navigate('AdministrateurForm')} />
+        </View>
 
         <ChampRecherche valeur={recherche} onChangeText={setRecherche} placeholder="Nom, e-mail ou téléphone..." />
 
@@ -179,10 +185,15 @@ export default function UtilisateursEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   defilement: { marginHorizontal: -espaces.m },
   puces: { paddingHorizontal: espaces.m, paddingVertical: 4 },
   voirPlus: { marginTop: espaces.s },
+  ajout: { marginBottom: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

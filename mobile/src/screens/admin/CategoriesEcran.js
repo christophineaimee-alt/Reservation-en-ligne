@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +20,7 @@ const DESACTIVEE = { libelle: 'Désactivée', couleur: '#4B5563', fond: '#E5E7EB
 
 // UC24 : gérer les catégories
 export default function CategoriesEcran({ navigation }) {
+  useThemeVersion();
   const nonLues = useNonLues();
   const { width } = useWindowDimensions();
   const [categories, setCategories] = useState([]);
@@ -100,8 +102,12 @@ export default function CategoriesEcran({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   ajout: { marginVertical: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

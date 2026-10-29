@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Line, Path, Stop } from 'react-native-svg';
@@ -127,15 +128,19 @@ export default function GraphiqueCourbe({
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   axe: { position: 'absolute', fontSize: 10, color: couleurs.texteSecondaire },
   infobulle: {
     position: 'absolute',
     width: 90,
     paddingVertical: 6,
     borderRadius: 12,
-    backgroundColor: couleurs.texte,
+    backgroundColor: couleurs.contraste,
     alignItems: 'center',
   },
   infobulleTexte: { color: '#FFFFFF', fontSize: 12, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

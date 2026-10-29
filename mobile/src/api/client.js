@@ -1,12 +1,31 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 import { lire, ecrire, effacer } from './stockage';
+import { Platform } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 const CLE_JETON = 'jeton';
 
-export const lireJeton = () => lire(CLE_JETON);
-export const sauverJeton = (jeton) => ecrire(CLE_JETON, jeton);
-export const effacerJeton = () => effacer(CLE_JETON);
+export async function lireJeton() {
+  if (Platform.OS === 'web') return window.localStorage.getItem(CLE_JETON);
+  return SecureStore.getItemAsync(CLE_JETON);
+}
+
+export async function sauverJeton(jeton) {
+  if (Platform.OS === 'web') {
+    window.localStorage.setItem(CLE_JETON, jeton);
+    return;
+  }
+  return SecureStore.setItemAsync(CLE_JETON, jeton);
+}
+
+export async function effacerJeton() {
+  if (Platform.OS === 'web') {
+    window.localStorage.removeItem(CLE_JETON);
+    return;
+  }
+  return SecureStore.deleteItemAsync(CLE_JETON);
+}
 
 const api = axios.create({ baseURL: API_URL, timeout: 15000 });
 

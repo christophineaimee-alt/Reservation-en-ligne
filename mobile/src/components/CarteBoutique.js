@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces, rayon, ombre } from '../theme';
@@ -33,7 +34,7 @@ export default function CarteBoutique({ boutique, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     flexDirection: 'row',
     backgroundColor: couleurs.carte,
@@ -59,4 +60,8 @@ const styles = StyleSheet.create({
   categorieTexte: { fontSize: 12, color: couleurs.primaire, fontWeight: '700' },
   lieu: { fontSize: 13, color: couleurs.texteSecondaire, marginTop: 6 },
   description: { fontSize: 14, color: couleurs.texte, marginTop: espaces.xs },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

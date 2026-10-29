@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import api, { messageErreur } from '../../api/client';
@@ -13,6 +14,7 @@ import { REGEX_HEURE, entier } from '../../utils/saisie';
 
 // UC15 : gérer les disponibilités (créneaux)
 export default function DisponibilitesEcran() {
+  useThemeVersion();
   const jours = useMemo(() => prochainsJours(21), []);
   const [jour, setJour] = useState(jours[0].valeur);
   const [liste, setListe] = useState([]);
@@ -234,11 +236,11 @@ export default function DisponibilitesEcran() {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   actions: { flexDirection: 'row', gap: espaces.s, marginBottom: espaces.m },
   action: { flex: 1, paddingHorizontal: 8 },
   panneau: {
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: rayon,
     borderWidth: 1,
     borderColor: couleurs.primaire,
@@ -289,4 +291,8 @@ const styles = StyleSheet.create({
   petit: { minHeight: 38, paddingHorizontal: 12 },
   confirmation: { marginTop: espaces.s, borderTopWidth: 1, borderTopColor: couleurs.bordure, paddingTop: espaces.s },
   confirmationTexte: { fontSize: 14, color: couleurs.texte, marginBottom: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

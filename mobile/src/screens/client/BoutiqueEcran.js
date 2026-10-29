@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,7 +29,7 @@ function statutOuverture(horaires) {
   if (h.ferme) return { libelle: "Fermé aujourd'hui", couleur: couleurs.erreur, fond: couleurs.erreurFond };
   const minutes = maintenant.getHours() * 60 + maintenant.getMinutes();
   if (minutes < enMinutes(h.heureOuverture)) {
-    return { libelle: `Ouvre à ${h.heureOuverture}`, couleur: couleurs.attention, fond: '#FFF4DB' };
+    return { libelle: `Ouvre à ${h.heureOuverture}`, couleur: couleurs.attention, fond: couleurs.avertFond };
   }
   if (minutes < enMinutes(h.heureFermeture)) {
     return { libelle: `Ouvert · ferme à ${h.heureFermeture}`, couleur: couleurs.succes, fond: couleurs.succesFond };
@@ -38,6 +39,7 @@ function statutOuverture(horaires) {
 
 // UC05 : consulter le catalogue d'une boutique
 export default function BoutiqueEcran({ route, navigation }) {
+  useThemeVersion();
   const { idBoutique } = route.params;
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -197,7 +199,7 @@ function InfoHero({ icone, texte }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   heroZone: { backgroundColor: couleurs.carte, borderRadius: rayon, ...ombre },
@@ -232,4 +234,8 @@ const styles = StyleSheet.create({
   jour: { fontSize: 14, color: couleurs.texteSecondaire },
   heures: { fontSize: 14, color: couleurs.texteSecondaire },
   courant: { color: couleurs.primaire, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

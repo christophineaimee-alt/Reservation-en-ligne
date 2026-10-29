@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +20,7 @@ import { calculerRemise } from '../../utils/promotion';
 
 // UC06 : consulter les disponibilités / UC07 : effectuer une réservation
 export default function NouvelleReservationEcran({ route, navigation }) {
+  useThemeVersion();
   const { idProduitService } = route.params;
   const { width } = useWindowDimensions();
   const large = width >= 900;
@@ -245,7 +247,7 @@ export default function NouvelleReservationEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -280,7 +282,7 @@ const styles = StyleSheet.create({
   },
   qte: { fontSize: 20, fontWeight: '700', color: couleurs.texte, minWidth: 52, textAlign: 'center' },
   champ: {
-    backgroundColor: '#F1F2FA',
+    backgroundColor: couleurs.surface3,
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -292,4 +294,8 @@ const styles = StyleSheet.create({
   totalTitre: { fontSize: 18, fontWeight: '600', color: couleurs.texte },
   totalValeur: { fontSize: 22, fontWeight: '700', color: couleurs.primaire },
   info: { fontSize: 12, color: couleurs.texteSecondaire, marginTop: espaces.m, textAlign: 'center' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,8 +12,10 @@ import Bouton from '../../components/Bouton';
 import { couleurs, degrade, espaces, rayon, ombre } from '../../theme';
 import { initiale } from '../../utils/format';
 import { LIBELLES_ROLE } from '../../utils/statuts';
+import { formaterTelephone } from '../../utils/telephone';
 
 export default function ProfilEcran({ navigation }) {
+  useThemeVersion();
   const { utilisateur, deconnexion } = useAuth();
   const nonLues = useNonLues();
   const { width } = useWindowDimensions();
@@ -42,7 +45,7 @@ export default function ProfilEcran({ navigation }) {
 
         <Panneau titre="Informations" style={styles.espace}>
           <LigneInfo icone="mail" titre="E-mail" valeur={utilisateur.email} />
-          <LigneInfo icone="call" titre="Téléphone" valeur={utilisateur.telephone} />
+          <LigneInfo icone="call" titre="Téléphone" valeur={formaterTelephone(utilisateur.telephone)} />
           <LigneInfo
             icone="shield-checkmark"
             titre="Rôle"
@@ -51,14 +54,21 @@ export default function ProfilEcran({ navigation }) {
         </Panneau>
 
         <View style={styles.espace}>
-          <Bouton titre="Se déconnecter" variante="danger" onPress={deconnexion} />
+          <Bouton titre="Modifier mon profil" onPress={() => navigation.navigate('ModifierProfil')} />
+          <Bouton
+            titre="Changer mon mot de passe"
+            variante="contour"
+            onPress={() => navigation.navigate('ModifierProfil', { section: 'motdepasse' })}
+            style={{ marginTop: espaces.s + 4 }}
+          />
+          <Bouton titre="Se déconnecter" variante="danger" onPress={deconnexion} style={{ marginTop: espaces.s + 4 }} />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   contenu: { width: '100%', alignSelf: 'center', padding: espaces.m, paddingBottom: espaces.xl },
   espace: { marginTop: espaces.m },
@@ -84,4 +94,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   roleTexte: { fontSize: 13, fontWeight: '700', color: '#FFFFFF' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -86,7 +87,7 @@ export default function Calendrier({ choisi, onChoisir, marques = [], minimum })
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   entete: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   mois: { fontSize: 14, fontWeight: '600', color: couleurs.texte },
   fleches: { flexDirection: 'row', gap: 14 },
@@ -100,4 +101,8 @@ const styles = StyleSheet.create({
   jourPasse: { color: '#C9CBDA' },
   jourChoisi: { color: '#FFFFFF', fontWeight: '700' },
   marque: { position: 'absolute', bottom: 2, width: 4, height: 4, borderRadius: 2, backgroundColor: couleurs.primaire },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

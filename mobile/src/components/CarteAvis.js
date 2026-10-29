@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -36,8 +37,8 @@ export default function CarteAvis({ avis, children }) {
   );
 }
 
-const styles = StyleSheet.create({
-  carte: { backgroundColor: '#F7F7FC', borderRadius: 16, padding: espaces.m, marginBottom: espaces.s + 2 },
+const creerStyles = () => StyleSheet.create({
+  carte: { backgroundColor: couleurs.surface2, borderRadius: 16, padding: espaces.m, marginBottom: espaces.s + 2 },
   haut: { flexDirection: 'row', alignItems: 'center', gap: espaces.s + 4 },
   avatar: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
   lettre: { color: '#FFFFFF', fontWeight: '700', fontSize: 15 },
@@ -50,4 +51,8 @@ const styles = StyleSheet.create({
   reponse: { backgroundColor: couleurs.primaireClair, borderRadius: 12, padding: espaces.s + 4, marginTop: espaces.s + 2 },
   reponseTitre: { fontSize: 12, fontWeight: '700', color: couleurs.primaire },
   reponseTexte: { fontSize: 13, color: couleurs.texte, marginTop: 2 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces } from '../theme';
@@ -24,10 +25,14 @@ export default function RecapPrix({ article, total }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { marginTop: espaces.m },
   ligne: { flexDirection: 'row', justifyContent: 'space-between', gap: espaces.m, paddingVertical: 3 },
   titre: { flex: 1, fontSize: 14, color: couleurs.texteSecondaire },
   valeur: { fontSize: 14, fontWeight: '700', color: couleurs.texte },
   note: { fontSize: 11, color: couleurs.texteSecondaire, marginTop: 2 },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

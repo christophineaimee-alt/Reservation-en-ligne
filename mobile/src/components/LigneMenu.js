@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces, rayon } from '../theme';
@@ -14,7 +15,7 @@ export default function LigneMenu({ titre, description, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -30,4 +31,8 @@ const styles = StyleSheet.create({
   titre: { fontSize: 16, fontWeight: '600', color: couleurs.texte },
   description: { fontSize: 13, color: couleurs.texteSecondaire, marginTop: 2 },
   fleche: { fontSize: 24, color: couleurs.texteSecondaire, marginLeft: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

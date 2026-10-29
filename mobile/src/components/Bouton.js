@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -40,7 +41,7 @@ export default function Bouton({ titre, onPress, chargement = false, desactive =
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { borderRadius: 26 },
   bouton: {
     minHeight: 52,
@@ -49,9 +50,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  contour: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: couleurs.bordure },
+  contour: { backgroundColor: couleurs.carte, borderWidth: 1, borderColor: couleurs.bordure },
   danger: { backgroundColor: couleurs.erreurFond, borderWidth: 1, borderColor: '#F0B4AC' },
   inactif: { opacity: 0.5 },
   appuye: { opacity: 0.88 },
   titre: { fontSize: 16, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import api, { messageErreur } from '../../api/client';
@@ -11,6 +12,7 @@ const LIBELLES = ['Touchez une étoile', 'Très décevant', 'Décevant', 'Correc
 
 // Donner son avis (POST) ou le modifier (PUT si "avis" est fourni)
 export default function DonnerAvisEcran({ route, navigation }) {
+  useThemeVersion();
   const { idReservation, avis, nomElement } = route.params;
   const [note, setNote] = useState(avis ? avis.note : 0);
   const [commentaire, setCommentaire] = useState(avis && avis.commentaire ? avis.commentaire : '');
@@ -68,7 +70,7 @@ export default function DonnerAvisEcran({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     backgroundColor: couleurs.carte,
     borderRadius: rayon,
@@ -93,4 +95,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   compteur: { fontSize: 12, color: couleurs.texteSecondaire, textAlign: 'right', marginTop: 4, marginBottom: espaces.m },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

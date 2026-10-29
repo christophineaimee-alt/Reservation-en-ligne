@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,11 +24,15 @@ export default function Ecran({ children, defilement = true, centre = true, cart
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   zone: { flex: 1, backgroundColor: couleurs.fond },
   defilement: { flexGrow: 1 },
   centre: { justifyContent: 'center' },
   contenu: { width: '100%', maxWidth: 560, alignSelf: 'center', padding: espaces.m },
   fixe: { flex: 1 },
   carte: { backgroundColor: couleurs.carte, borderRadius: rayon, padding: espaces.m + 4, ...ombre },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

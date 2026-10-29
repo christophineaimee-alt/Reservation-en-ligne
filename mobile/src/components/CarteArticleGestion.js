@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { couleurs, espaces, rayon } from '../theme';
@@ -35,7 +36,7 @@ export default function CarteArticleGestion({ article, onPress }) {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   carte: {
     backgroundColor: couleurs.carte,
     borderRadius: rayon,
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: couleurs.attention,
-    backgroundColor: '#FFF4DB',
+    backgroundColor: couleurs.avertFond,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
@@ -74,4 +75,8 @@ const styles = StyleSheet.create({
   prix: { fontSize: 15, fontWeight: '700', color: couleurs.texte },
   info: { fontSize: 14, color: couleurs.texteSecondaire },
   rouge: { color: couleurs.erreur, fontWeight: '600' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

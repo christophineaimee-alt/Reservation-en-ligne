@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import { couleurs } from '../theme';
 
 function neutre(libelle) {
@@ -5,13 +6,17 @@ function neutre(libelle) {
 }
 
 // ---- Réservations ----
-export const STATUTS_RESERVATION = {
-  EN_ATTENTE: { libelle: 'En attente', couleur: '#B7791F', fond: '#FFF4DB' },
+const creerSTATUTS_RESERVATION = () => ({
+  EN_ATTENTE: { libelle: 'En attente', couleur: '#B7791F', fond: couleurs.avertFond },
   ACCEPTEE: { libelle: 'Acceptée', couleur: couleurs.succes, fond: couleurs.succesFond },
   REFUSEE: { libelle: 'Refusée', couleur: couleurs.erreur, fond: couleurs.erreurFond },
   ANNULEE: { libelle: 'Annulée', couleur: '#4B5563', fond: '#E5E7EB' },
   EXPIREE: { libelle: 'Expirée', couleur: '#4B5563', fond: '#E5E7EB' },
-};
+});
+export const STATUTS_RESERVATION = creerSTATUTS_RESERVATION();
+enregistrerStyles(() => {
+  Object.assign(STATUTS_RESERVATION, creerSTATUTS_RESERVATION());
+});
 
 export function infoStatut(statut) {
   return STATUTS_RESERVATION[statut] || neutre(statut);
@@ -21,22 +26,30 @@ export function infoStatut(statut) {
 export const STATUTS_ACTIFS = ['EN_ATTENTE', 'ACCEPTEE'];
 
 // ---- Boutiques ----
-export const STATUTS_BOUTIQUE = {
-  EN_ATTENTE: { libelle: 'En attente', couleur: '#B7791F', fond: '#FFF4DB' },
+const creerSTATUTS_BOUTIQUE = () => ({
+  EN_ATTENTE: { libelle: 'En attente', couleur: '#B7791F', fond: couleurs.avertFond },
   VALIDEE: { libelle: 'Validée', couleur: couleurs.succes, fond: couleurs.succesFond },
   REJETEE: { libelle: 'Rejetée', couleur: couleurs.erreur, fond: couleurs.erreurFond },
-};
+});
+export const STATUTS_BOUTIQUE = creerSTATUTS_BOUTIQUE();
+enregistrerStyles(() => {
+  Object.assign(STATUTS_BOUTIQUE, creerSTATUTS_BOUTIQUE());
+});
 
 export function infoStatutBoutique(statut) {
   return STATUTS_BOUTIQUE[statut] || neutre(statut);
 }
 
 // ---- Comptes utilisateurs ----
-export const STATUTS_COMPTE = {
+const creerSTATUTS_COMPTE = () => ({
   ACTIF: { libelle: 'Actif', couleur: couleurs.succes, fond: couleurs.succesFond },
-  SUSPENDU: { libelle: 'Suspendu', couleur: '#B7791F', fond: '#FFF4DB' },
+  SUSPENDU: { libelle: 'Suspendu', couleur: '#B7791F', fond: couleurs.avertFond },
   BLOQUE: { libelle: 'Bloqué', couleur: couleurs.erreur, fond: couleurs.erreurFond },
-};
+});
+export const STATUTS_COMPTE = creerSTATUTS_COMPTE();
+enregistrerStyles(() => {
+  Object.assign(STATUTS_COMPTE, creerSTATUTS_COMPTE());
+});
 
 export function infoStatutCompte(statut) {
   return STATUTS_COMPTE[statut] || neutre(statut);

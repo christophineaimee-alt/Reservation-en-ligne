@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -29,9 +30,9 @@ export default function LigneListe({ avatar, icone, titre, sousTitre, detail, dr
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ligne: {
-    backgroundColor: '#F7F7FC',
+    backgroundColor: couleurs.surface2,
     borderRadius: 16,
     padding: espaces.s + 4,
     marginBottom: espaces.s,
@@ -57,4 +58,8 @@ const styles = StyleSheet.create({
   sousTitre: { fontSize: 13, color: couleurs.texte, marginTop: 1 },
   detail: { fontSize: 12, color: couleurs.primaire, marginTop: 2 },
   droite: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: espaces.s },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

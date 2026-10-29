@@ -1,3 +1,4 @@
+import { enregistrerStyles } from '../theme/registre';
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import { couleurs } from '../theme';
@@ -30,7 +31,7 @@ export default function Pilule({ titre, onPress, variante = 'contour', occupe = 
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   pilule: {
     minWidth: 84,
     height: 36,
@@ -40,8 +41,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   plein: { backgroundColor: couleurs.primaire },
-  contour: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: couleurs.bordure },
+  contour: { backgroundColor: couleurs.carte, borderWidth: 1, borderColor: couleurs.bordure },
   danger: { backgroundColor: couleurs.erreurFond, borderWidth: 1, borderColor: '#F0B4AC' },
   inactif: { opacity: 0.6 },
   texte: { fontSize: 13, fontWeight: '700' },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });

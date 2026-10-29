@@ -1,3 +1,4 @@
+import { enregistrerStyles, useThemeVersion } from '../../theme/registre';
 import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,6 +16,7 @@ import { recuHtml } from '../../utils/recuHtml';
 
 // Reçu d'un paiement réussi
 export default function RecuEcran({ route, navigation }) {
+  useThemeVersion();
   const { idPaiement } = route.params;
   const [recu, setRecu] = useState(null);
   const [chargement, setChargement] = useState(true);
@@ -165,7 +167,7 @@ function Pointille() {
   );
 }
 
-const styles = StyleSheet.create({
+const creerStyles = () => StyleSheet.create({
   ticket: {
     backgroundColor: couleurs.carte,
     borderRadius: rayon,
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: couleurs.carte,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: espaces.s + 4,
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
   hautTitre: { fontSize: 14, color: 'rgba(255,255,255,0.9)' },
   montant: { fontSize: 32, fontWeight: '800', color: '#FFFFFF', marginVertical: 4 },
   hautSous: { fontSize: 12, color: 'rgba(255,255,255,0.9)' },
-  demo: { backgroundColor: '#FFF4DB', paddingVertical: 8, paddingHorizontal: espaces.m },
+  demo: { backgroundColor: couleurs.avertFond, paddingVertical: 8, paddingHorizontal: espaces.m },
   demoTexte: { fontSize: 12, color: '#8A5A00', textAlign: 'center' },
   corps: { padding: espaces.m },
   section: { marginVertical: espaces.xs },
@@ -195,5 +197,9 @@ const styles = StyleSheet.create({
   ligneTitre: { fontSize: 14, color: couleurs.texteSecondaire },
   ligneValeur: { flex: 1, fontSize: 14, fontWeight: '600', color: couleurs.texte, textAlign: 'right' },
   pointilleZone: { height: 1, overflow: 'hidden', marginVertical: espaces.s + 4 },
-  pointille: { height: 2, borderWidth: 1, borderStyle: 'dashed', borderColor: '#D9D6EE' },
+  pointille: { height: 2, borderWidth: 1, borderStyle: 'dashed', borderColor: couleurs.bordureForte },
+});
+let styles = creerStyles();
+enregistrerStyles(() => {
+  styles = creerStyles();
 });
