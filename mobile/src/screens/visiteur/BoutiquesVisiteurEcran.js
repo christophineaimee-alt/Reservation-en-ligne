@@ -12,6 +12,7 @@ import Bandeau from '../../components/Bandeau';
 import Chargement from '../../components/Chargement';
 import EtatVide from '../../components/EtatVide';
 import { couleurs, degradeHero, espaces, ombre } from '../../theme';
+import BoutonAutourDeMoi from '../../components/BoutonAutourDeMoi';
 
 const LIMITE = 10;
 
@@ -87,6 +88,8 @@ export default function BoutiquesVisiteurEcran({ route, navigation }) {
           placeholderTextColor={couleurs.texteSecondaire}
         />
       </View>
+
+      <BoutonAutourDeMoi style={{ marginBottom: espaces.m }} />
 
       <FlatList
         horizontal

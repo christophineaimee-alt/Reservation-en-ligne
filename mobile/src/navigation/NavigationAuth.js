@@ -11,6 +11,7 @@ import AvisBoutiqueEcran from '../screens/client/AvisBoutiqueEcran';
 import ConnexionEcran from '../screens/auth/ConnexionEcran';
 import InscriptionEcran from '../screens/auth/InscriptionEcran';
 import { couleurs } from '../theme';
+import AutourDeMoiEcran from '../screens/commun/AutourDeMoiEcran';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function NavigationAuth() {
       <Stack.Screen name="Contact" component={ContactEcran} options={{ title: 'Nous contacter' }} />
       <Stack.Screen name="Connexion" component={ConnexionEcran} options={{ headerShown: false }} />
       <Stack.Screen name="Inscription" component={InscriptionEcran} options={{ title: 'Créer un compte' }} />
+      <Stack.Screen name="AutourDeMoi" component={AutourDeMoiEcran} options={{ title: 'Autour de moi' }} />
     </Stack.Navigator>
   );
 }

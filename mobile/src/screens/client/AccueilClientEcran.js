@@ -14,6 +14,7 @@ import Bandeau from '../../components/Bandeau';
 import Puce from '../../components/Puce';
 import { couleurs, espaces } from '../../theme';
 import BandeOffres from '../../components/BandeOffres';
+import BoutonAutourDeMoi from '../../components/BoutonAutourDeMoi';
 
 const LIMITE = 10;
 
@@ -111,6 +112,8 @@ export default function AccueilClientEcran({ navigation }) {
         onChangeText={setRecherche}
         placeholder="Rechercher une boutique, une adresse..."
       />
+
+      <BoutonAutourDeMoi style={{ marginTop: espaces.m }} />
 
       <ScrollView
         horizontal

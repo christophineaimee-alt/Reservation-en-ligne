@@ -12,5 +12,6 @@ router.use('/promotions', require('./promotion.routes'));
 router.use('/visiteur', require('./visiteur.routes'));
 router.use('/notifications', require('./notification.routes'));
 router.use('/', require('./catalogue.routes'));
+router.use('/proximite', require('./proximite.routes'));
 
 module.exports = router;

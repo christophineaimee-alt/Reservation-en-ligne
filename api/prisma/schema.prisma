@@ -131,6 +131,8 @@ model Boutique {
   ville             String
   logo              String?
   telephone         String?
+  latitude Float?
+  longitude Float?
   noteMoyenne       Float            @default(0)
   nombreAvis        Int              @default(0)
   avis              Avis[]

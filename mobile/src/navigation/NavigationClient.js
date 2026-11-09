@@ -22,6 +22,8 @@ import RecuEcran from '../screens/client/RecuEcran';
 import AvisBoutiqueEcran from '../screens/client/AvisBoutiqueEcran';
 import DonnerAvisEcran from '../screens/client/DonnerAvisEcran';
 import ModifierProfilEcran from '../screens/commun/ModifierProfilEcran';
+import AutourDeMoiEcran from '../screens/commun/AutourDeMoiEcran';
+import PositionBoutiqueEcran from '../screens/commercant/PositionBoutiqueEcran';
 
 
 const Tab = createBottomTabNavigator();
@@ -92,6 +94,8 @@ export default function NavigationClient() {
       <Stack.Screen name="AvisBoutique" component={AvisBoutiqueEcran} options={{ title: 'Avis des clients' }} />
       <Stack.Screen name="DonnerAvis" component={DonnerAvisEcran} options={{ title: 'Votre avis' }} />
       <Stack.Screen name="ModifierProfil" component={ModifierProfilEcran} options={{ title: 'Modifier mon profil' }} />
+      <Stack.Screen name="PositionBoutique" component={PositionBoutiqueEcran} options={{ title: 'Position' }} />
+      <Stack.Screen name="AutourDeMoi" component={AutourDeMoiEcran} options={{ title: 'Autour de moi' }} />
     </Stack.Navigator>
   );
 }

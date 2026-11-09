@@ -1,4 +1,4 @@
-import { useThemeVersion } from '../theme/registre';
+﻿import { useThemeVersion } from '../theme/registre';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -30,6 +30,7 @@ import AvisCommercantEcran from '../screens/commercant/AvisCommercantEcran';
 import PromotionsEcran from '../screens/commercant/PromotionsEcran';
 import PromotionFormEcran from '../screens/commercant/PromotionFormEcran';
 import ModifierProfilEcran from '../screens/commun/ModifierProfilEcran';
+import PositionBoutiqueEcran from '../screens/commercant/PositionBoutiqueEcran';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -48,7 +49,7 @@ function Onglets() {
       screenOptions={{ ...optionsOnglets, tabBarPosition: large ? 'left' : 'bottom' }}
     >
       <Tab.Screen name="Tableau" component={TableauBordEcran} options={{ title: 'Accueil', tabBarIcon: icone('speedometer-outline') }} />
-      <Tab.Screen name="Reservations" component={ReservationsEcran} options={{ title: 'Réservations', tabBarIcon: icone('calendar-outline') }} />
+      <Tab.Screen name="Reservations" component={ReservationsEcran} options={{ title: 'Reservations', tabBarIcon: icone('calendar-outline') }} />
       <Tab.Screen name="Catalogue" component={CatalogueEcran} options={{ title: 'Catalogue', tabBarIcon: icone('pricetags-outline') }} />
       <Tab.Screen name="Notifications" component={NotificationsEcran} options={{ title: 'Notifications', tabBarIcon: icone('notifications-outline') }} />
       <Tab.Screen
@@ -62,7 +63,7 @@ function Onglets() {
         options={{
           title: 'Promotions',
           tabBarIcon: icone('pricetag-outline'),
-          // Dans la barre latérale (grand écran) ; sur téléphone, accessible via « Plus »
+          // Dans la barre latÃ©rale (grand Ã©cran) ; sur tÃ©lÃ©phone, accessible via Â« Plus Â»
           tabBarButton: large ? undefined : () => null,
         }}
       />
@@ -76,17 +77,18 @@ function Pile() {
         <Stack.Navigator screenOptions={optionsPile}>
       <Stack.Screen name="Onglets" component={Onglets} options={{ headerShown: false }} />
       <Stack.Screen name="NotificationDetail" component={NotificationDetailEcran} options={{ title: 'Notification' }} />
-      <Stack.Screen name="ReservationCommercantDetail" component={ReservationCommercantDetailEcran} options={{ title: 'Demande de réservation' }} />
+      <Stack.Screen name="ReservationCommercantDetail" component={ReservationCommercantDetailEcran} options={{ title: 'Demande de reservation' }} />
       <Stack.Screen
         name="ArticleForm"
         component={ArticleFormEcran}
         options={({ route }) => ({
-          title: route.params && route.params.article ? route.params.article.nom : 'Nouvel élément',
+          title: route.params && route.params.article ? route.params.article.nom : 'Nouvel Ellement',
         })}
       />
       <Stack.Screen name="Horaires" component={HorairesEcran} options={{ title: "Horaires d'ouverture" }} />
-      <Stack.Screen name="Disponibilites" component={DisponibilitesEcran} options={{ title: 'Créneaux de réservation' }} />
+      <Stack.Screen name="Disponibilites" component={DisponibilitesEcran} options={{ title: 'Creneaux de reservation' }} />
       <Stack.Screen name="Clients" component={ClientsEcran} options={{ title: 'Mes clients' }} />
+      <Stack.Screen name="PositionBoutique" component={PositionBoutiqueEcran} options={{ title: 'Position' }} />
       <Stack.Screen name="PromotionForm" component={PromotionFormEcran} options={{ title: 'Promotion' }} />
       <Stack.Screen name="ClientDetail" component={ClientDetailEcran} options={{ title: 'Fiche client' }} />
       <Stack.Screen name="MaBoutique" component={CreerBoutiqueEcran} options={{ title: 'Ma boutique' }} />
@@ -96,7 +98,7 @@ function Pile() {
   );
 }
 
-// Sans boutique : formulaire de création. Avec boutique : l'application complète.
+// Sans boutique : formulaire de crÃ©ation. Avec boutique : l'application complÃ¨te.
 function Contenu() {
   const { boutique, chargement, erreur, recharger } = useBoutique();
 
@@ -106,7 +108,7 @@ function Contenu() {
     return (
       <Ecran>
         <Bandeau type="erreur" message={erreur} />
-        <Bouton titre="Réessayer" onPress={recharger} />
+        <Bouton titre="Ressayer" onPress={recharger} />
       </Ecran>
     );
   }

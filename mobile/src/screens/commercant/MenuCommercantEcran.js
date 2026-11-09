@@ -7,12 +7,14 @@ import { useBoutique } from '../../context/BoutiqueContext';
 import EnTetePage from '../../components/EnTetePage';
 import { couleurs, espaces, rayon, ombre } from '../../theme';
 
+
 const ENTREES = [
   { titre: "Horaires d'ouverture", description: "Jours et heures d'ouverture", icone: 'time-outline', route: 'Horaires' },
   { titre: 'Créneaux de réservation', description: 'Générer, ajouter, bloquer', icone: 'calendar-outline', route: 'Disponibilites' },
   { titre: 'Promotions', description: 'Offres spéciales et remises', icone: 'pricetag-outline', route: 'Promotions' },
   { titre: 'Mes clients', description: 'Historique des clients de la boutique', icone: 'people-outline', route: 'Clients' },
   { titre: 'Ma boutique', description: 'Informations et statut de validation', icone: 'storefront-outline', route: 'MaBoutique' },
+  { titre: 'Position sur la carte', description: "Pour apparaître dans « Autour de moi »", icone: 'location-outline', route: 'PositionBoutique' },
   { titre: 'Mon profil', description: 'Compte et déconnexion', icone: 'person-outline', route: 'Profil' },
 ];
 
