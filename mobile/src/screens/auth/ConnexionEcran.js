@@ -32,6 +32,13 @@ export default function ConnexionEcran({ navigation, route }) {
     try {
       await connexion(id, motDePasse);
     } catch (e) {
+      // Compte créé mais e-mail pas encore vérifié : on ouvre la saisie du code
+      const donnees = e && e.response && e.response.data;
+      if (donnees && donnees.verificationRequise && donnees.email) {
+        setCharge(false);
+        navigation.navigate('VerificationEmail', { email: donnees.email });
+        return;
+      }
       setErreur(messageErreur(e));
       setCharge(false);
     }
@@ -65,6 +72,11 @@ export default function ConnexionEcran({ navigation, route }) {
           onSubmitEditing={seConnecter}
         />
         <Bouton titre="Se connecter" onPress={seConnecter} chargement={charge} />
+        <Bouton
+          titre="Mot de passe oublié ?"
+          variante="texte"
+          onPress={() => navigation.navigate('MotDePasseOublie')}
+        />
       </Panneau>
 
       <Bouton

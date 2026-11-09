@@ -12,6 +12,8 @@ import ConnexionEcran from '../screens/auth/ConnexionEcran';
 import InscriptionEcran from '../screens/auth/InscriptionEcran';
 import { couleurs } from '../theme';
 import AutourDeMoiEcran from '../screens/commun/AutourDeMoiEcran';
+import VerificationEmailEcran from '../screens/auth/VerificationEmailEcran';
+import MotDePasseOublieEcran from '../screens/auth/MotDePasseOublieEcran';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +33,8 @@ export default function NavigationAuth() {
       <Stack.Screen name="Connexion" component={ConnexionEcran} options={{ headerShown: false }} />
       <Stack.Screen name="Inscription" component={InscriptionEcran} options={{ title: 'Créer un compte' }} />
       <Stack.Screen name="AutourDeMoi" component={AutourDeMoiEcran} options={{ title: 'Autour de moi' }} />
+      <Stack.Screen name="VerificationEmail" component={VerificationEmailEcran} options={{ title: 'Vérification' }} />
+      <Stack.Screen name="MotDePasseOublie" component={MotDePasseOublieEcran} options={{ title: 'Mot de passe oublié' }} />
     </Stack.Navigator>
   );
 }

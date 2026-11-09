@@ -59,7 +59,7 @@ export default function InscriptionEcran({ navigation }) {
     setCharge(true);
     try {
       await inscription(donnees);
-      navigation.navigate('Connexion', { message: 'Compte créé. Vous pouvez maintenant vous connecter.' });
+      navigation.navigate('VerificationEmail', { email: donnees.email });
     } catch (e) {
       setErreurServeur(messageErreur(e));
       setCharge(false);

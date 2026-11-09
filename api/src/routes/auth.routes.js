@@ -5,6 +5,8 @@ const { inscriptionSchema, connexionSchema } = require('../validators/utilisateu
 const { inscription, connexion, moi } = require('../controllers/utilisateurController');
 const { modifierProfilSchema, changerMotDePasseSchema } = require('../validators/profil.validator');
 const { modifierProfil, changerMotDePasse } = require('../controllers/profilController');
+const { verifierCodeSchema, renvoyerCodeSchema, motDePasseOublieSchema, reinitialiserSchema } = require('../validators/verification.validator');
+const { verifier, renvoyer, motDePasseOublie, reinitialiser } = require('../controllers/verificationController');
 
 router.post('/inscription', validate(inscriptionSchema), inscription);
 router.post('/connexion', validate(connexionSchema), connexion);
@@ -12,5 +14,9 @@ router.get('/moi', authentifier, moi);
 // Modifier son profil et son mot de passe (tous les rôles connectés)
 router.patch('/moi', authentifier, validate(modifierProfilSchema), modifierProfil);
 router.put('/mot-de-passe', authentifier, validate(changerMotDePasseSchema), changerMotDePasse);
+router.post('/verifier-code', validate(verifierCodeSchema), verifier);
+router.post('/renvoyer-code', validate(renvoyerCodeSchema), renvoyer);
+router.post('/mot-de-passe-oublie', validate(motDePasseOublieSchema), motDePasseOublie);
+router.post('/reinitialiser-mot-de-passe', validate(reinitialiserSchema), reinitialiser);
 
 module.exports = router;

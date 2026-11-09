@@ -68,6 +68,11 @@ model Utilisateur {
   role          Role
   statutCompte  StatutCompte @default(ACTIF)
   nbEchecs      Int          @default(0)
+  emailVerifie  Boolean      @default(true)
+  codeHash      String?
+  codeExpire    DateTime?
+  codeEssais    Int          @default(0)
+  codeEnvoyeLe  DateTime?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
