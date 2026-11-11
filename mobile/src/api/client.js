@@ -27,7 +27,8 @@ export async function effacerJeton() {
   return SecureStore.deleteItemAsync(CLE_JETON);
 }
 
-const api = axios.create({ baseURL: API_URL, timeout: 15000 });
+//const api = axios.create({ baseURL: API_URL, timeout: 15000 });
+const api = axios.create({ baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.185:3000/api' });
 
 // Ajoute le jeton à chaque requête
 api.interceptors.request.use(async (config) => {
